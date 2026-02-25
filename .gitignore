@@ -1,3 +1,6 @@
 # Paths
 node_modules/
 .next/
+
+# Files
+.env
