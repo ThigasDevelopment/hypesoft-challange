@@ -1,3 +1,37 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+
+@theme {
+	--color-background: var(--bg-color);
+	--color-foreground: var(--text-color);
+
+	--color-border: var(--border-color);
+}
+
+@layer base {
+	:root {
+		--bg-color: #F8FAFC;
+		--text-color: #11181C;
+	}
+
+	.dark {
+		--bg-color: #11181C;
+		--text-color: #F8FAFC;
+	}
+
+	* {
+		box-sizing: border-box;
+		border-color: var(--border-color)
+	}
+
+	body {
+		margin: 0;
+		padding: 0;
+
+		color: var(--text-color);
+		background-color: var(--bg-color);
+
+		transition: background-color 0.3s ease, color 0.3s ease;
+	}
+}
