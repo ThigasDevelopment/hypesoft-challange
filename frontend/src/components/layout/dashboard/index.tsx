@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { useAuth } from 'react-oidc-context';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/hooks/themes';
 
-import { LayoutDashboardIcon, LogOut, MoonIcon, SunIcon } from 'lucide-react';
+import { LayoutDashboardIcon, LogOut, MoonIcon, SunIcon, ShoppingBasket, Layers } from 'lucide-react';
 
 export function DashboardLayout () {
 	const auth = useAuth ();
@@ -29,20 +29,45 @@ export function DashboardLayout () {
 				</div>
 
 				{/* NavBar */}
-				<div className = 'space-y-2'>
-					
+				<div className = 'flex-1 space-y-2'>
+					<Link
+						to = '/'
+
+						className = { `flex items-center gap-2 rounded-md px-4 py-2 transition-colors ${ location.pathname === '/' ? 'bg-primary/10 text-primary font-medium' : 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground' }` }
+					>
+						<LayoutDashboardIcon className = 'h-4 w-4'/>
+						Dashboard
+					</Link>
+
+					<Link
+						to = '/products'
+
+						className = { `flex items-center gap-2 rounded-md px-4 py-2 transition-colors ${ location.pathname === '/products' ? 'bg-primary/10 text-primary font-medium' : 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground' }` }
+					>
+						<ShoppingBasket className = 'h-4 w-4'/>
+						Produtos
+					</Link>
+
+					<Link
+						to = '/categories'
+
+						className = { `flex items-center gap-2 rounded-md px-4 py-2 transition-colors ${ location.pathname === '/categories' ? 'bg-primary/10 text-primary font-medium' : 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground' }` }
+					>
+						<Layers className = 'h-4 w-4'/>
+						Categorias
+					</Link>
 				</div>
 
 				{/* Footer */}
 				<div className = 'absolute bottom-6 left-0 w-full px-4'>
 					<Button
-						className="w-full justify-start text-destructive bg-transparent hover:bg-destructive/100 hover:text-destructive focus-visible:ring-2 focus-visible:ring-destructive/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md group"
-						variant = 'ghost'
+						className = 'w-full justify-start opacity-90'
+						variant = 'destructive'
 
 						onClick = { () => auth.signoutRedirect () }
 					>
-						<span className="group-hover:-translate-x-1 transition-transform duration-150 flex items-center">
-							<LogOut className="mr-2 h-4 w-4" />
+						<span className = 'group-hover:-translate-x-1 transition-transform duration-150 flex items-center'>
+							<LogOut className = 'mr-2 h-4 w-4'/>
 							Sair
 						</span>
 					</Button>
