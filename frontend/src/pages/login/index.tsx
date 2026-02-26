@@ -1,12 +1,15 @@
-import { useAuth } from 'react-oidc-context'
+import { useAuth } from 'react-oidc-context';
 import { Navigate } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
+import { useTheme } from '@/hooks/themes';
 
-import { LayoutDashboardIcon } from 'lucide-react'
+import { LayoutDashboardIcon } from 'lucide-react';
 
 export function Login () {
 	const auth = useAuth ();
+
+    const { currentTheme } = useTheme ();
 
     if (auth.isLoading) {
         return (
