@@ -4,6 +4,6 @@ export interface AppRoute {
 	path: string;
 	name?: string;
 
-	element: ReactElement;
-	children?: AppRoute[];
+	element?: ReactElement;
+	children?: AppRoute[ ];
 }
