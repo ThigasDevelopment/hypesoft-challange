@@ -8,8 +8,7 @@ import { LayoutDashboardIcon } from 'lucide-react';
 
 export function Login () {
 	const auth = useAuth ();
-
-    const { currentTheme } = useTheme ();
+    useTheme ();
 
     if (auth.isLoading) {
         return (
