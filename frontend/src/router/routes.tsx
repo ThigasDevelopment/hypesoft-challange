@@ -6,8 +6,14 @@ import { DashboardLayout } from '@/components/layout/dashboard';
 
 import { Login } from '@/pages/login';
 import { Dashboard } from '@/pages/dashboard';
+import { NotFound } from '@/pages/notfound';
 
 export const routes: AppRoute[] = [
+	{
+		path: '*',
+		element: <NotFound />
+	},
+
 	{
 		path: '/login',
 		element: <Login />
