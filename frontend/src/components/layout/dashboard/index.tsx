@@ -1,3 +1,4 @@
+import { Outlet } from 'react-router-dom';
 import { LayoutDashboardIcon } from 'lucide-react';
 
 export function DashboardLayout () {
@@ -12,9 +13,16 @@ export function DashboardLayout () {
 
 				{/* NavBar */}
 				<div className = 'space-y-2'>
-
+					
 				</div>
 			</aside>
+
+			<main className = 'ml-64 flex-1 flex flex-col min-h-screen'>
+				{/* Render Page */}
+				<div className="p-8">
+					<Outlet />
+				</div>
+			</main>
 		</div>
 	)
 }
