@@ -1,11 +1,4 @@
-import type { ReactElement } from 'react';
-
-type AppRoute = {
-	path: string;
-	name?: string;
-	element: ReactElement;
-	children?: AppRoute[];
-};
+import type { AppRoute } from '@/types/routes';
 
 import { DashboardLayout } from '@/components/layout/dashboard';
 
