@@ -8,16 +8,16 @@ import { LayoutDashboardIcon } from 'lucide-react'
 export function Login () {
 	const auth = useAuth ();
 
-    if (auth.isAuthenticated) {
-        return <Navigate to = '/' replace />
-    }
-
     if (auth.isLoading) {
         return (
             <div className = 'flex h-screen items-center justify-center bg-background'>
                 <div className = 'animate-spin rounded-full h-12 w-12 border-b-2 border-primary'/>
             </div>
         )
+    }
+
+    if (auth.isAuthenticated) {
+        return <Navigate to = '/' replace />
     }
 
     if (auth.error) {
