@@ -64,7 +64,7 @@ export function Login () {
             </div>
             
             <footer className = 'mt-8 text-xs text-muted-foreground'>
-                &copy; 2024 HypeSoft Inc. Todos os direitos reservados.
+                &copy; 2026 HypeSoft Inc. Todos os direitos reservados.
             </footer>
         </div>
 	)
