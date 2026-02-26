@@ -1,4 +1,4 @@
-import type { AppRoute } from '@/types/routes';
+import { type AppRoute } from '@/types/index';
 
 import { DashboardLayout } from '@/components/layout/dashboard';
 
