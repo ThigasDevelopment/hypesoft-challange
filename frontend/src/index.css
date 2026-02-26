@@ -4,33 +4,60 @@
 
 @theme {
 	--color-background: var(--bg-color);
+	--color-secondary: var(--bg-secondary);
+	--color-hover: var(--bg-hover);
+
 	--color-foreground: var(--text-color);
+	--color-muted: var(--text-muted);
 
 	--color-primary: var(--primary-color);
+	--color-primary-hover: var(--primary-hover);
 	--color-primary-foreground: var(--primary-foreground-color);
+	--color-primary-light: var(--primary-light);
 
 	--color-border: var(--border-color);
+
+	--color-danger: var(--danger-color);
+	--color-success: var(--success-color);
 }
 
 @layer base {
 	:root {
 		--bg-color: #F8FAFC;
-		--text-color: #11181C;
+		--bg-secondary: #FFFFFF;
+		--bg-hover: #F1F5F9;
+
+		--text-color: #0F172A;
+		--text-muted: #64748B;
 
 		--primary-color: #833ABE;
+		--primary-hover: #6B2A9E;
 		--primary-foreground-color: #FFFFFF;
+		--primary-light: #F3E8FF;
 
 		--border-color: #E2E8F0;
+		
+		--danger-color: #EF4444;
+		--success-color: #22C55E;
 	}
 
 	.dark {
-		--bg-color: #11181C;
+		--bg-color: #0B0F19;
+		--bg-secondary: #111827;
+		--bg-hover: #1E293B;
+
 		--text-color: #F8FAFC;
+		--text-muted: #94A3B8;
 
-		--primary-color: #833ABE;
+		--primary-color: #9D5AE3;
+		--primary-hover: #B67DF0;
 		--primary-foreground-color: #FFFFFF;
+		--primary-light: #2E104A;
 
-		--border-color: #E2E8F0;
+		--border-color: #1E293B;
+
+		--danger-color: #F87171;
+		--success-color: #4ADE80;
 	}
 
 	* {
