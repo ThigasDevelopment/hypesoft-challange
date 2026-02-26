@@ -6,6 +6,9 @@
 	--color-background: var(--bg-color);
 	--color-foreground: var(--text-color);
 
+	--color-primary: var(--primary-color);
+	--color-primary-foreground: var(--primary-foreground-color);
+
 	--color-border: var(--border-color);
 }
 
@@ -13,11 +16,21 @@
 	:root {
 		--bg-color: #F8FAFC;
 		--text-color: #11181C;
+
+		--primary-color: #3B82F6;
+		--primary-foreground-color: #FFFFFF;
+
+		--border-color: #E2E8F0;
 	}
 
 	.dark {
 		--bg-color: #11181C;
 		--text-color: #F8FAFC;
+
+		--primary-color: #3B82F6;
+		--primary-foreground-color: #FFFFFF;
+
+		--border-color: #E2E8F0;
 	}
 
 	* {
