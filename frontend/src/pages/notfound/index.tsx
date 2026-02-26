@@ -35,6 +35,10 @@ export function NotFound () {
 					</Button>
 				</div>
 			</div>
+
+			<footer className = 'mt-8 text-xs text-muted-foreground'>
+                &copy; 2026 HypeSoft Inc. Todos os direitos reservados.
+            </footer>
 		</div>
 	)
 }
