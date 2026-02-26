@@ -5,6 +5,7 @@ import { type AppRoute } from '@/types/index';
 import { DashboardLayout } from '@/components/layout/dashboard';
 
 import { Login } from '@/pages/login';
+import { Dashboard } from '@/pages/dashboard';
 
 export const routes: AppRoute[] = [
 	{
@@ -20,7 +21,13 @@ export const routes: AppRoute[] = [
 		children: [
 			{
 				path: '/',
-				element: <DashboardLayout />
+				element: <DashboardLayout />,
+				children: [
+					{
+						path: '/',
+						element: <Dashboard />
+					}
+				]
 			},
 		],
 	}
