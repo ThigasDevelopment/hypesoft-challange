@@ -27,3 +27,17 @@
 	opacity: 0.5;
 	pointer-events: none;
 }
+
+.variant-default {
+	color: var(--primary-foreground-color);
+	background-color: var(--primary-color);
+}
+
+.variant-default:hover {
+	opacity: 0.9;
+}
+
+.size-default {
+	height: 2.5rem;
+	padding: 0 1rem;
+}
