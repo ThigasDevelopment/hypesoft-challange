@@ -64,7 +64,7 @@ export function DashboardLayout () {
 						className = 'w-full justify-start opacity-90'
 						variant = 'destructive'
 
-						onClick = { () => auth.signoutRedirect () }
+						onClick = { () => auth.signoutRedirect ({ post_logout_redirect_uri: `${ import.meta.env.VITE_API_BASE_URL }/login` }) }
 					>
 						<span className = 'group-hover:-translate-x-1 transition-transform duration-150 flex items-center'>
 							<LogOut className = 'mr-2 h-4 w-4'/>
