@@ -2,14 +2,17 @@ import { useAuth } from 'react-oidc-context';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
+import { useTheme } from '@/hooks/themes';
 
-import { LayoutDashboardIcon, LogOut } from 'lucide-react';
+import { LayoutDashboardIcon, LogOut, MoonIcon, SunIcon } from 'lucide-react';
 
 export function DashboardLayout () {
 	const auth = useAuth ();
+	const username = auth.user?.profile?.preferred_username || auth.user?.profile?.email || 'Usuário';
+	
 	const location = useLocation ();
 
-	const username = auth.user?.profile?.preferred_username || auth.user?.profile?.email || 'Usuário';
+	const { currentTheme, toggleCurrentTheme } = useTheme ();
 
 	return (
 		<div className = 'flex min-h-screen bg-background text-foreground'>
@@ -28,7 +31,7 @@ export function DashboardLayout () {
 				{/* Footer */}
 				<div className = 'absolute bottom-6 left-0 w-full px-4'>
 					<Button
-						className="w-full justify-start text-destructive bg-transparent hover:bg-destructive/10 hover:text-destructive focus-visible:ring-2 focus-visible:ring-destructive/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md group"
+						className="w-full justify-start text-destructive bg-transparent hover:bg-destructive/100 hover:text-destructive focus-visible:ring-2 focus-visible:ring-destructive/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md group"
 						variant = 'ghost'
 
 						onClick = { () => auth.signoutRedirect () }
@@ -44,9 +47,20 @@ export function DashboardLayout () {
 			<main className = 'ml-64 flex-1 flex flex-col min-h-screen'>
 				{/* Header */}
 				<header className = 'sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background/95 px-6 backdrop-blur shadow-sm'>
-					<h2 className = 'text-lg font-semibold'>
-						{ location.pathname === '/' ? 'Dashboard' : location.pathname.split('/')[1] }
-					</h2>
+					<div className = 'flex items-center gap-4'>
+						<h2 className = 'text-lg font-semibold'>
+							{ location.pathname === '/' ? 'Dashboard' : location.pathname.split('/')[1] }
+						</h2>
+
+						<Button
+							className = 'p-2 rounded-md hover:bg-secondary/50 focus-visible:ring-2 focus-visible:ring-secondary/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md'
+							variant = 'secondary'
+
+							onClick = { toggleCurrentTheme }
+						>
+							{ currentTheme === 'dark' ? <SunIcon className = 'h-4 w-4'/> : <MoonIcon className = 'h-4 w-4'/> }
+						</Button>
+					</div>
 					
 					<div className = 'flex items-center gap-4'>
 						<span className = 'text-sm font-medium text-muted-foreground'>Bem-vindo(a), { username }!</span>
