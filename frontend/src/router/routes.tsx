@@ -11,27 +11,27 @@ import { NotFound } from '@/pages/notfound';
 export const routes: AppRoute[] = [
 	{
 		path: '*',
-		element: <NotFound />
+		element: <NotFound/>
 	},
 
 	{
 		path: '/login',
-		element: <Login />
+		element: <Login/>
 	},
 
 	{
 		path: '/',
 		name: 'Dashboard',
-		element: <AuthGuard />,
+		element: <AuthGuard/>,
 
 		children: [
 			{
 				path: '/',
-				element: <DashboardLayout />,
+				element: <DashboardLayout/>,
 				children: [
 					{
 						path: '/',
-						element: <Dashboard />
+						element: <Dashboard/>
 					}
 				]
 			},
