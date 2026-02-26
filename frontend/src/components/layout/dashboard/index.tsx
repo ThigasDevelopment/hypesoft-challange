@@ -17,7 +17,7 @@ export function DashboardLayout () {
 				{/* Logo */}
 				<div className = 'mb-8 flex justify-center items-center gap-2 px-2'>
 					<h1 className = 'flex justify-center items-center gap-1 text-2xl font-bold'><LayoutDashboardIcon/> Hypesoft</h1>
-					<p className = 'text-sm text-muted-foreground'>DASHBOARD</p>
+					<p className = 'text-sm text-muted-foreground'>Dashboard</p>
 				</div>
 
 				{/* NavBar */}
