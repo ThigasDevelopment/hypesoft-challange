@@ -1,31 +1,19 @@
-import styles from './styles.module.css';
-
-import type { ButtonHTMLAttributes } from 'react';
+import { style } from './style';
 import { forwardRef } from 'react';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-	size?: 'sm' | 'lg' | 'icon' | 'default';
-
-	variant?: 'ghost' | 'outline' | 'destructive' | 'default';
-}
+import { type ButtonProps } from '@/types/index';
+import { cn } from '@/utils/index';
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps> (
-	({ className, variant = 'default', size = 'default', ...props }, ref) => {
-		const classes = [
-			styles.button,
-
-			styles[`size-${ size }`],
-			styles[`variant-${ variant }`],
-
-			className
-		].filter (Boolean).join (' ');
-
+	({ className, variant, size, ...props }, ref) => {
 		return (
 			<button
 				ref = { ref }
-				className = { classes }
+				className = { cn (style ({ variant, size }), className) }
 				{ ...props }
 			/>
-		)
+		);
 	}
-)
+);
+
+Button.displayName = 'Button';
