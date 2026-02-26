@@ -1,7 +1,9 @@
 import { useAuth } from 'react-oidc-context';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { LayoutDashboardIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+import { LayoutDashboardIcon, LogOut } from 'lucide-react';
 
 export function DashboardLayout () {
 	const auth = useAuth ();
@@ -22,9 +24,23 @@ export function DashboardLayout () {
 				<div className = 'space-y-2'>
 					
 				</div>
+
+				{/* Footer */}
+				<div className = 'absolute bottom-6 left-0 w-full px-4'>
+					<Button
+						className = 'w-full justify-start text-destructive hover:bg-destructive/10 hover:text-destructive'
+						variant = 'ghost'
+
+						onClick = { () => auth.signoutRedirect () }
+					>
+						<LogOut className = 'mr-2 h-4 w-4'/>
+						Sair
+					</Button>
+				</div>
 			</aside>
 
 			<main className = 'ml-64 flex-1 flex flex-col min-h-screen'>
+				{/* Header */}
 				<header className = 'sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background/95 px-6 backdrop-blur shadow-sm'>
 					<h2 className = 'text-lg font-semibold'>
 						{ location.pathname === '/' ? 'Dashboard' : location.pathname.split('/')[1] }
