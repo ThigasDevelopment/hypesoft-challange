@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
 import { routes } from './routes';
 
 export function AppRouter () {
@@ -8,7 +7,17 @@ export function AppRouter () {
 			<Routes>
 				{
 					routes.map (
-						({ path, element }) => <Route key = { path } path = { path } element = { element } />
+						({ path, element, children }) => (
+							<Route key = { path } path = { path } element = { element }>
+								{
+									children?.map (
+										({ path, element }) => (
+											<Route key = { path } path = { path } element = { element } />
+										)
+									)
+								}
+							</Route>
+						)
 					)
 				}
 			</Routes>
