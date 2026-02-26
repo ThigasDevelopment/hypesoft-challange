@@ -28,13 +28,15 @@ export function DashboardLayout () {
 				{/* Footer */}
 				<div className = 'absolute bottom-6 left-0 w-full px-4'>
 					<Button
-						className = 'w-full justify-start text-destructive hover:bg-destructive/10 hover:text-destructive'
+						className="w-full justify-start text-destructive bg-transparent hover:bg-destructive/10 hover:text-destructive focus-visible:ring-2 focus-visible:ring-destructive/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md group"
 						variant = 'ghost'
 
 						onClick = { () => auth.signoutRedirect () }
 					>
-						<LogOut className = 'mr-2 h-4 w-4'/>
-						Sair
+						<span className="group-hover:-translate-x-1 transition-transform duration-150 flex items-center">
+							<LogOut className="mr-2 h-4 w-4" />
+							Sair
+						</span>
 					</Button>
 				</div>
 			</aside>
