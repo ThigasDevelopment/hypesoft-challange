@@ -4,11 +4,11 @@ import { type AppRoute } from '@/types/index';
 
 import { DashboardLayout } from '@/components/layout/dashboard';
 
-import { Login } from '@/pages/public/login';
-import { NotFound } from '@/pages/public/notfound';
+import { Login } from '@/pages';
+import { NotFound } from '@/pages';
 
-import { Dashboard } from '@/pages/private/dashboard';
-import { Products } from '@/pages/private/products';
+import { Dashboard } from '@/pages';
+import { Products } from '@/pages';
 
 export const routes: AppRoute[] = [
 	{
