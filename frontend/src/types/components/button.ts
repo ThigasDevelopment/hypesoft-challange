@@ -1,4 +1,4 @@
-import { style } from '@/components/ui/button/style';
+import { style } from '@/components/ui/shadcn/button/style';
 
 import { type VariantProps } from 'class-variance-authority';
 import { type ButtonHTMLAttributes } from 'react';

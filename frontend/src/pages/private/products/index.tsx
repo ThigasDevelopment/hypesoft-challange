@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Product } from '@/components/ui/product';
+import { Button } from '@/components/ui/shadcn/button';
+import { Card } from '@/components/ui/shadcn/card';
+import { Input } from '@/components/ui/shadcn/input';
+
+import { Product } from '@/components/ui/default/product';
 
 import { Search, SquarePlus } from 'lucide-react';
 

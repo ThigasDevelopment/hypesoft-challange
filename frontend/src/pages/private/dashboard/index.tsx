@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/shadcn/button';
+import { Card } from '@/components/ui/shadcn/card';
 
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 

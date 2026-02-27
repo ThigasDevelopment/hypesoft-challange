@@ -1,7 +1,7 @@
 import type { ProductProps } from '@/types';
 
-import { Button } from '../button';
-import { Card } from '../card';
+import { Button } from '../../shadcn/button';
+import { Card } from '../../shadcn/card';
 
 import { Edit, Trash } from 'lucide-react';
 

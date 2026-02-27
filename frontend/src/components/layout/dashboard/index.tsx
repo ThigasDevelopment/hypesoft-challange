@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useAuth } from 'react-oidc-context';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button';
-import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownTrigger } from '@/components/ui/dropdown';
+import { Button } from '@/components/ui/shadcn/button';
+import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownTrigger } from '@/components/ui/shadcn/dropdown';
+
 import { useTheme } from '@/hooks/themes';
 
 import { LayoutDashboardIcon, LogOut, Menu, MoonIcon, SunIcon, ShoppingBasket, Layers } from 'lucide-react';
