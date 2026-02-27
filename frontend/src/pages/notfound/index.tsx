@@ -1,4 +1,6 @@
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+
 import { useTheme } from '@/hooks/themes';
 
 import { LayoutDashboardIcon } from 'lucide-react';
@@ -7,7 +9,7 @@ export function NotFound () {
 	useTheme ();
 
 	return (
-		<div className = 'flex min-h-screen flex-col items-center justify-center bg-background p-4'>
+		<Card className = 'flex min-h-screen flex-col items-center justify-center bg-background p-4'>
 			<div className = 'w-full max-w-sm space-y-8 text-center bg-card p-8 rounded-xl border shadow-sm'>
 				<div className = 'flex flex-col items-center gap-2'>
                     <div className = 'flex h-12 w-12 items-center justify-center rounded-lg bg-primary'>
@@ -39,6 +41,6 @@ export function NotFound () {
 			<footer className = 'mt-8 text-xs text-muted-foreground'>
                 &copy; 2026 HypeSoft Inc. Todos os direitos reservados.
             </footer>
-		</div>
+		</Card>
 	)
 }

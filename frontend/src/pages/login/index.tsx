@@ -2,6 +2,9 @@ import { useAuth } from 'react-oidc-context';
 import { Navigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Loading } from '@/components/ui/loading';
+
 import { useTheme } from '@/hooks/themes';
 
 import { LayoutDashboardIcon } from 'lucide-react';
@@ -12,9 +15,7 @@ export function Login () {
 
     if (auth.isLoading) {
         return (
-            <div className = 'flex h-screen items-center justify-center bg-background'>
-                <div className = 'animate-spin rounded-full h-12 w-12 border-b-2 border-primary'/>
-            </div>
+            <Loading/>
         )
     }
 
@@ -46,7 +47,7 @@ export function Login () {
     }
 
 	return (
-		<div className = 'flex min-h-screen flex-col items-center justify-center bg-background p-4'>
+        <Card className = 'flex min-h-screen flex-col items-center justify-center bg-background p-4'>
             <div className = 'w-full max-w-sm space-y-8 text-center bg-card p-8 rounded-xl border shadow-sm'>
                 <div className = 'flex flex-col items-center gap-2'>
                     <div className = 'flex h-12 w-12 items-center justify-center rounded-lg bg-primary'>
@@ -72,10 +73,10 @@ export function Login () {
                     </p>
                 </div>
             </div>
-            
+
             <footer className = 'mt-8 text-xs text-muted-foreground'>
                 &copy; 2026 HypeSoft Inc. Todos os direitos reservados.
             </footer>
-        </div>
+        </Card>
 	)
 }
