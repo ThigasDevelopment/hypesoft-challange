@@ -1,3 +1,4 @@
+export * from './private/categories';
 export * from './private/dashboard';
 export * from './private/products';
 

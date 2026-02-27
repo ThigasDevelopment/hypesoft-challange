@@ -7,6 +7,7 @@ import { DashboardLayout } from '@/components/layout/dashboard';
 import { Login } from '@/pages';
 import { NotFound } from '@/pages';
 
+import { Categories } from '@/pages';
 import { Dashboard } from '@/pages';
 import { Products } from '@/pages';
 
@@ -39,6 +40,11 @@ export const routes: AppRoute[] = [
 					{
 						path: '/products',
 						element: <Products/>
+					},
+
+					{
+						path: '/categories',
+						element: <Categories/>
 					}
 				]
 			},
