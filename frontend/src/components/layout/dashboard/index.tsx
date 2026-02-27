@@ -80,7 +80,7 @@ export function DashboardLayout () {
 
 							<DropdownContent>
 								<DropdownGroup>
-									<DropdownItem onClick = { () => auth.signoutRedirect ({ post_logout_redirect_uri: `${ import.meta.env.VITE_API_BASE_URL }/login` }) }>
+									<DropdownItem className = 'hover:bg-danger/50' onClick = { () => auth.signoutRedirect ({ post_logout_redirect_uri: `${ import.meta.env.VITE_API_BASE_URL }/login` }) }>
 										<LogOut className = 'mr-2 h-4 w-4'/>
 										Sair
 									</DropdownItem>
