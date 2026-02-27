@@ -24,6 +24,10 @@ export function Products () {
 		product.name.toLowerCase ().includes (search.toLowerCase ())
 	);
 
+	if (filteredProducts.length === 0 && filter !== 'none') {
+		setFilter ('none');
+	}
+
 	if (filter !== 'none') {
 		switch (filter) {
 			case 'a-z':
