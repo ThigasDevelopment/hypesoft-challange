@@ -21,6 +21,7 @@
 
 	--color-danger: var(--danger-color);
 	--color-success: var(--success-color);
+	--color-warning: var(--warning-color);
 }
 
 @layer base {
@@ -41,6 +42,7 @@
 		
 		--danger-color: #EF4444;
 		--success-color: #22C55E;
+		--warning-color: #F59E0B;
 	}
 
 	.dark {
