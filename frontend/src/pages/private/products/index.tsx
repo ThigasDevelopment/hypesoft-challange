@@ -1,12 +1,9 @@
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/shadcn/button';
-import { Card } from '@/components/ui/shadcn/card';
-import { Input } from '@/components/ui/shadcn/input';
-
+import { Button, Card, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Input } from '@components/ui';
 import { Product } from '@/components/ui/default/product';
 
-import { Search, SquarePlus } from 'lucide-react';
+import { ArrowDown, ArrowUp, Search, SquarePlus } from 'lucide-react';
 
 const dummyProducts: any[] = [
 	{ id: '1', name: 'Notebook', description: 'Notebook Dell Inspiron 16GB RAM', category: 'Eletrônicos', price: 4200.00, stock: 8 },
@@ -20,11 +17,29 @@ const dummyProducts: any[] = [
 ];
 
 export function Products () {
+	const [ filter, setFilter ] = useState ('none');
 	const [ search, setSearch ] = useState ('');
 
 	const filteredProducts = dummyProducts.filter (product =>
 		product.name.toLowerCase ().includes (search.toLowerCase ())
 	);
+
+	if (filter !== 'none') {
+		switch (filter) {
+			case 'a-z':
+				filteredProducts.sort ((a, b) => a.name.localeCompare (b.name));
+				break;
+			case 'z-a':
+				filteredProducts.sort ((a, b) => b.name.localeCompare (a.name));
+				break;
+			case '0-1':
+				filteredProducts.sort ((a, b) => a.price - b.price);
+				break;
+			case '1':
+				filteredProducts.sort ((a, b) => b.price - a.price);
+				break;
+		}
+	}
 
 	return (
 		<div className = 'space-y-6'>
@@ -53,6 +68,26 @@ export function Products () {
 							className = 'pl-8 pr-2 py-2 border rounded w-full sm:w-48 h-12 focus:outline-none focus:ring'
 						/>
 					</div>
+
+					<Dropdown>
+						<DropdownTrigger asChild>
+							<Button variant = 'outline'>
+								Filtros
+							</Button>
+						</DropdownTrigger>
+
+						<DropdownContent align = 'end'>
+							<DropdownGroup>
+								<DropdownLabel>Ordernar por</DropdownLabel>
+								<DropdownSeparator/>
+								<DropdownItem className = { filter === 'a-z' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'a-z' ? 'none' : 'a-z') }>Nome (A-Z)</DropdownItem>
+								<DropdownItem className = { filter === 'z-a' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'z-a' ? 'none' : 'z-a') }>Nome (Z-A)</DropdownItem>
+								<DropdownSeparator/>
+								<DropdownItem className = { filter === '0-1' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === '0-1' ? 'none' : '0-1') }>Preço <ArrowDown className = 'ml-2 h-4 w-4'/> <ArrowUp className = 'ml-2 h-4 w-4'/></DropdownItem>
+								<DropdownItem className = { filter === '1-0' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === '1-0' ? 'none' : '1-0') }>Preço <ArrowUp className = 'ml-2 h-4 w-4'/> <ArrowDown className = 'ml-2 h-4 w-4'/></DropdownItem>
+							</DropdownGroup>
+						</DropdownContent>
+					</Dropdown>
 				</div>
 
 				<div className = 'grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
