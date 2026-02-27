@@ -2,6 +2,7 @@ import { useAuth } from 'react-oidc-context';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
+import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownTrigger } from '@/components/ui/dropdown';
 import { useTheme } from '@/hooks/themes';
 
 import { LayoutDashboardIcon, LogOut, MoonIcon, SunIcon, ShoppingBasket, Layers } from 'lucide-react';
@@ -51,21 +52,6 @@ export function DashboardLayout () {
 						Categorias
 					</Link>
 				</div>
-
-				{/* Footer */}
-				<div className = 'absolute bottom-6 left-0 w-full px-4'>
-					<Button
-						className = 'w-full justify-start opacity-90'
-						variant = 'destructive'
-
-						onClick = { () => auth.signoutRedirect ({ post_logout_redirect_uri: `${ import.meta.env.VITE_API_BASE_URL }/login` }) }
-					>
-						<span className = 'group-hover:-translate-x-1 transition-transform duration-150 flex items-center'>
-							<LogOut className = 'mr-2 h-4 w-4'/>
-							Sair
-						</span>
-					</Button>
-				</div>
 			</aside>
 
 			<main className = 'ml-64 flex-1 flex flex-col min-h-screen'>
@@ -84,7 +70,26 @@ export function DashboardLayout () {
 					
 					<div className = 'flex items-center gap-4'>
 						<span className = 'text-sm font-medium text-muted-foreground'>Bem-vindo(a), { username }!</span>
-						<div className = 'h-9 w-9 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold'> { username.charAt (0).toUpperCase () } </div>
+
+						<Dropdown>
+							<DropdownTrigger asChild>
+								<Button
+									className = 'h-9 w-9 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold'
+									variant = 'secondary'
+								>
+									{ username.charAt (0).toUpperCase () }
+								</Button>
+							</DropdownTrigger>
+
+							<DropdownContent>
+								<DropdownGroup>
+									<DropdownItem onClick = { () => auth.signoutRedirect ({ post_logout_redirect_uri: `${ import.meta.env.VITE_API_BASE_URL }/login` }) }>
+										<LogOut className = 'mr-2 h-4 w-4'/>
+										Sair
+									</DropdownItem>
+								</DropdownGroup>
+							</DropdownContent>
+						</Dropdown>
 					</div>
 				</header>
 
