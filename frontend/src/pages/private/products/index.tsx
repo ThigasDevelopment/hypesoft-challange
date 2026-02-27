@@ -9,6 +9,7 @@ const dummyCategories: string[] = [
 	'Eletrônicos',
 	'Roupas',
 	'Alimentos',
+	'Teste',
 ];
 
 const dummyProducts: any[] = [
@@ -30,9 +31,9 @@ export function Products () {
 
 	const filteredProducts = dummyProducts
 		.filter (product => product.name.toLowerCase ().includes (search.toLowerCase ()))
-		.filter (product => categorie === 'all' || product.category === categorie);
+		.filter (product => categorie === 'all' || product.category.toLowerCase () === categorie.toLowerCase ());
 
-	if (filteredProducts.length === 0 && (filter !== 'none' || categorie !== 'all')) {
+	if (filteredProducts.length === 0 && filter !== 'none') {
 		setFilter ('none');
 		setCategorie ('all');
 	}
