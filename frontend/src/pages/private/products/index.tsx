@@ -140,16 +140,18 @@ export function Products () {
 				<div className = 'grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
 					{
 						filteredProducts.length > 0 ? (
-							filteredProducts.map (product => (
-								<Product
-									key = { product.id }
-									name = { product.name }
-									desc = { product.description }
-									category = { product.category }
-									price = { product.price }
-									stock = { product.stock }
-								/>
-							))
+							filteredProducts.map (
+								product => (
+									<Product
+										key = { product.id }
+										name = { product.name }
+										desc = { product.description }
+										category = { product.category }
+										price = { product.price }
+										stock = { product.stock }
+									/>
+								)
+							)
 						) : (
 							<h1 className = 'col-span-full text-center py-8 text-muted-foreground'>
 								Nenhum produto encontrado
