@@ -19,8 +19,8 @@ export function Product ({ name, desc, category, price, stock }: ProductProps) {
 					</p>
 				</div>
 
-				<div className = 'flex flex-row md:flex-col gap-2'>
-					<Button className = 'p-2 rounded-md hover:bg-secondary/50 focus-visible:ring-2 focus-visible:ring-secondary/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md' variant = 'outline' size = 'sm'><Edit className = 'h-4 w-4'/></Button>
+				<div className = 'flex flex-row md:flex-col items-center justify-center gap-2'>
+					<Button className = 'hover:bg-secondary/50 focus-visible:ring-2 focus-visible:ring-secondary/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md' variant = 'outline' size = 'sm'><Edit className = 'h-4 w-4'/></Button>
 					<Button variant = 'destructive' size = 'sm'><Trash className = 'h-4 w-4'/></Button>
 				</div>
 			</div>
