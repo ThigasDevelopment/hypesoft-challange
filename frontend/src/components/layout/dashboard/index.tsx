@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useAuth } from 'react-oidc-context';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 
@@ -12,11 +11,6 @@ export function DashboardLayout () {
 	const username = auth.user?.profile?.preferred_username || auth.user?.profile?.email || 'Usuário';
 	
 	const location = useLocation ();
-	const title = useMemo (
-		() => location.pathname === '/' ? 'Dashboard' : location.pathname.split('/')[1],
-		[ location.pathname ]
-	);
-
 	const { currentTheme, toggleCurrentTheme } = useTheme ();
 
 	return (
@@ -78,10 +72,6 @@ export function DashboardLayout () {
 				{/* Header */}
 				<header className = 'sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background/95 px-6 backdrop-blur shadow-sm'>
 					<div className = 'flex items-center gap-4'>
-						<h2 className = 'text-lg font-semibold'>
-							{ title }
-						</h2>
-
 						<Button
 							className = 'p-2 rounded-md hover:bg-secondary/50 focus-visible:ring-2 focus-visible:ring-secondary/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md'
 							variant = 'secondary'
