@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Product } from '@/components/ui/product';
 
 import { Search, SquarePlus } from 'lucide-react';
 
@@ -17,7 +18,7 @@ export function Products () {
 
 	return (
 		<div className = 'space-y-6'>
-			<div className = 'flex items-center justify-between'>
+			<div className = 'flex flex-col sm:flex-row items-center justify-between gap-4'>
 				<h2 className = 'text-2xl font-bold'>
 					Produtos
 				</h2>
@@ -39,9 +40,35 @@ export function Products () {
 							placeholder = 'Buscar produtos...'
 							value = { search }
 							onChange = { (e) => setSearch (e.target.value) }
-							className = 'pl-8 pr-2 py-2 border rounded w-48 h-12 focus:outline-none focus:ring'
+							className = 'pl-8 pr-2 py-2 border rounded w-full sm:w-48 h-12 focus:outline-none focus:ring'
 						/>
 					</div>
+				</div>
+
+				<div className = 'grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+					<Product
+						name = 'Notebook'
+						desc = 'Notebook Dell Inspiron 16GB RAM'
+						category = 'Eletrônicos'
+						price = { 4200.00 }
+						stock = { 0 }
+					/>
+
+					<Product
+						name = 'Computador'
+						desc = 'Computador Gamer Ryzen 5'
+						category = 'Eletrônicos'
+						price = { 3500.00 }
+						stock = { 5 }
+					/>
+
+					<Product
+						name = 'Notebook'
+						desc = 'Notebook Dell Inspiron 16GB RAM'
+						category = 'Eletrônicos'
+						price = { 4200.00 }
+						stock = { 50 }
+					/>
 				</div>
 			</Card>
 		</div>

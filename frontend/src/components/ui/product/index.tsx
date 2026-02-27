@@ -7,7 +7,7 @@ import { Edit, Trash } from 'lucide-react';
 
 export function Product ({ name, desc, category, price, stock }: ProductProps) {
 	return (
-		<Card className = 'w-full max-w-md mx-auto'>
+		<Card className = 'w-full'>
 			<div className = 'flex flex-col md:flex-row justify-between gap-4'>
 				<div className = 'flex-1'>
 					<h3 className = 'text-lg md:text-xl font-semibold'>
