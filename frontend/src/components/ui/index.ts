@@ -3,6 +3,7 @@ export * from './shadcn/card';
 export * from './shadcn/dropdown';
 export * from './shadcn/input';
 
+export * from './default/category';
 export * from './default/error';
 export * from './default/loading';
 export * from './default/product';
