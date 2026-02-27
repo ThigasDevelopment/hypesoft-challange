@@ -6,6 +6,7 @@ import { DashboardLayout } from '@/components/layout/dashboard';
 
 import { Login } from '@/pages/public/login';
 import { NotFound } from '@/pages/public/notfound';
+
 import { Dashboard } from '@/pages/private/dashboard';
 import { Products } from '@/pages/private/products';
 
