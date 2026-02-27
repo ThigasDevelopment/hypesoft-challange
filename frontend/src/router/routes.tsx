@@ -5,8 +5,9 @@ import { type AppRoute } from '@/types/index';
 import { DashboardLayout } from '@/components/layout/dashboard';
 
 import { Login } from '@/pages/login';
-import { Dashboard } from '@/pages/dashboard';
 import { NotFound } from '@/pages/notfound';
+import { Dashboard } from '@/pages/dashboard';
+import { Products } from '@/pages/products';
 
 export const routes: AppRoute[] = [
 	{
@@ -32,6 +33,11 @@ export const routes: AppRoute[] = [
 					{
 						path: '/',
 						element: <Dashboard/>
+					},
+
+					{
+						path: '/products',
+						element: <Products/>
 					}
 				]
 			},
