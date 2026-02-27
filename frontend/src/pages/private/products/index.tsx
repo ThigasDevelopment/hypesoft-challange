@@ -46,10 +46,16 @@ export function Products () {
 			case 'z-a':
 				filteredProducts.sort ((a, b) => b.name.localeCompare (a.name));
 				break;
-			case '0-1':
+			case 's:0-1':
+				filteredProducts.sort ((a, b) => a.stock - b.stock);
+				break;
+			case 's:1-0':
+				filteredProducts.sort ((a, b) => b.stock - a.stock);
+				break;
+			case 'p:0-1':
 				filteredProducts.sort ((a, b) => a.price - b.price);
 				break;
-			case '1-0':
+			case 'p:1-0':
 				filteredProducts.sort ((a, b) => b.price - a.price);
 				break;
 		}
@@ -120,8 +126,11 @@ export function Products () {
 									<DropdownItem className = { filter === 'a-z' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'a-z' ? 'none' : 'a-z') }>Nome (A-Z)</DropdownItem>
 									<DropdownItem className = { filter === 'z-a' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'z-a' ? 'none' : 'z-a') }>Nome (Z-A)</DropdownItem>
 									<DropdownSeparator/>
-									<DropdownItem className = { filter === '0-1' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === '0-1' ? 'none' : '0-1') }>Preço <ArrowDown className = 'ml-2 h-4 w-4'/> <ArrowUp className = 'ml-2 h-4 w-4'/></DropdownItem>
-									<DropdownItem className = { filter === '1-0' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === '1-0' ? 'none' : '1-0') }>Preço <ArrowUp className = 'ml-2 h-4 w-4'/> <ArrowDown className = 'ml-2 h-4 w-4'/></DropdownItem>
+									<DropdownItem className = { filter === 's:0-1' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 's:0-1' ? 'none' : 's:0-1') }>Estoque <ArrowDown className = 'ml-2 h-4 w-4'/> <ArrowUp className = 'ml-2 h-4 w-4'/></DropdownItem>
+									<DropdownItem className = { filter === 's:1-0' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 's:1-0' ? 'none' : 's:1-0') }>Estoque <ArrowUp className = 'ml-2 h-4 w-4'/> <ArrowDown className = 'ml-2 h-4 w-4'/></DropdownItem>
+									<DropdownSeparator/>
+									<DropdownItem className = { filter === 'p:0-1' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'p:0-1' ? 'none' : 'p:0-1') }>Preço <ArrowDown className = 'ml-2 h-4 w-4'/> <ArrowUp className = 'ml-2 h-4 w-4'/></DropdownItem>
+									<DropdownItem className = { filter === 'p:1-0' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'p:1-0' ? 'none' : 'p:1-0') }>Preço <ArrowUp className = 'ml-2 h-4 w-4'/> <ArrowDown className = 'ml-2 h-4 w-4'/></DropdownItem>
 								</DropdownGroup>
 							</DropdownContent>
 						</Dropdown>
