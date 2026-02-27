@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Error } from '@/components/ui/error';
 import { Loading } from '@/components/ui/loading';
 
 import { useTheme } from '@/hooks/themes';
@@ -25,24 +26,7 @@ export function Login () {
 
     if (auth.error) {
         return (
-            <div className = 'flex h-screen flex-col items-center justify-center gap-4 bg-background p-4 text-center'>
-                <div className = 'bg-destructive/10 p-4 rounded-full'>
-                    <span className = 'text-destructive text-xl font-bold'>!</span>
-                </div>
-
-                <h2 className = 'text-xl font-semibold'>Algo deu errado</h2>
-
-                <p className = 'text-muted-foreground text-sm max-w-md'>
-                    Não conseguimos conectar ao servidor de autenticação. Tente novamente mais tarde.
-                </p>
-
-                <Button
-                    onClick = { () => window.location.reload () }
-                    variant = 'outline'
-                >
-                    Recarregar Página
-                </Button>
-            </div>
+            <Error/>
         )
     }
 
