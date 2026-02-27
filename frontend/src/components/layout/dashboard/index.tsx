@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAuth } from 'react-oidc-context';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 
@@ -5,9 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownTrigger } from '@/components/ui/dropdown';
 import { useTheme } from '@/hooks/themes';
 
-import { LayoutDashboardIcon, LogOut, MoonIcon, SunIcon, ShoppingBasket, Layers } from 'lucide-react';
+import { LayoutDashboardIcon, LogOut, Menu, MoonIcon, SunIcon, ShoppingBasket, Layers } from 'lucide-react';
 
 export function DashboardLayout () {
+	const [ isMenuOpen, setMenuOpen ] = useState (false);
+
 	const auth = useAuth ();
 	const username = auth.user?.profile?.preferred_username || auth.user?.profile?.email || 'Usuário';
 	
@@ -16,10 +19,16 @@ export function DashboardLayout () {
 
 	return (
 		<div className = 'flex min-h-screen bg-background text-foreground'>
-			<aside className = 'fixed left-0 top-0 z-20 h-full w-64 border-r px-4 py-6 shadow-sm flex flex-col bg-secondary'>
-				<div className = 'mb-8 flex justify-center items-center gap-2 px-2'>
-					<h1 className = 'flex justify-center items-center gap-1 text-2xl font-bold'><LayoutDashboardIcon/> Hypesoft</h1>
-					<p className = 'text-sm text-muted-foreground'>Dashboard</p>
+			{
+				isMenuOpen && <div className = 'fixed inset-0 bg-black/50 z-30 sm:hidden' onClick = { () => setMenuOpen (false) } />
+			}
+
+			<aside className = { `fixed left-0 top-0 z-40 h-full w-64 border-r px-4 py-6 bg-secondary transform transition-transform duration-200 ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 sm:fixed sm:z-20 sm:h-full sm:w-64 sm:border-r sm:px-4 sm:py-6` }>
+				<div className = 'mb-4 flex items-center justify-between sm:justify-center'>
+					<div className = 'flex items-center gap-2'>
+						<h1 className = 'flex justify-center items-center gap-1 text-2xl font-bold'><LayoutDashboardIcon/> Hypesoft</h1>
+						<p className = 'text-sm text-muted-foreground'>Dashboard</p>
+					</div>
 				</div>
 
 				<div className = 'flex-1 space-y-2'>
@@ -52,9 +61,18 @@ export function DashboardLayout () {
 				</div>
 			</aside>
 
-			<main className = 'ml-64 flex-1 flex flex-col min-h-screen'>
-				<header className = 'sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background/95 px-6 backdrop-blur shadow-sm'>
+			<main className = 'flex-1 flex flex-col min-h-screen sm:ml-64 min-w-0'>
+				<header className = 'sticky top-0 z-10 flex h-16 flex-wrap items-center justify-between border-b bg-background/95 px-4 sm:px-6 backdrop-blur shadow-sm'>
 					<div className = 'flex items-center gap-4'>
+						<Button
+							className = 'p-2 rounded-md hover:bg-secondary/50 focus-visible:ring-2 focus-visible:ring-secondary/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md sm:hidden'
+							variant = 'secondary'
+							onClick = { () => setMenuOpen (!isMenuOpen) }
+
+						>
+							<Menu className = 'h-4 w-4'/>
+						</Button>
+
 						<Button
 							className = 'p-2 rounded-md hover:bg-secondary/50 focus-visible:ring-2 focus-visible:ring-secondary/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md'
 							variant = 'secondary'
@@ -88,7 +106,7 @@ export function DashboardLayout () {
 					</div>
 				</header>
 
-				<div className = 'p-8'>
+				<div className = 'p-4 sm:p-8 min-w-0'>
 					<Outlet/>
 				</div>
 			</main>
