@@ -66,8 +66,6 @@ export function DashboardLayout () {
 					</div>
 					
 					<div className = 'flex items-center gap-4'>
-						<span className = 'text-sm font-medium text-muted-foreground'>Bem-vindo(a), { username }!</span>
-
 						<Dropdown>
 							<DropdownTrigger asChild>
 								<Button
@@ -91,7 +89,7 @@ export function DashboardLayout () {
 				</header>
 
 				<div className = 'p-8'>
-					<Outlet />
+					<Outlet/>
 				</div>
 			</main>
 		</div>
