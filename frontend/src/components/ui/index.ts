@@ -5,3 +5,4 @@ export * from './shadcn/input';
 
 export * from './default/error';
 export * from './default/loading';
+export * from './default/product';
