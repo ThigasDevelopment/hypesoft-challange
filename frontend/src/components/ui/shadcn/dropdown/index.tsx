@@ -64,7 +64,7 @@ export function DropdownItem ({ className, ...props }: DropdownMenu.DropdownMenu
 		<DropdownMenu.Item
 			data-slot = 'dropdown-item'
 
-			className = { cn ('data-disabled:pointer-events-none flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-disabled:opacity-40', className) }
+			className = { cn ('data-disabled:pointer-events-none flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-disabled:opacity-40 hover:bg-hover', className) }
 
 			{ ...props }
 		/>
