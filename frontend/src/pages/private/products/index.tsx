@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Button, Card, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Input } from '@components/ui';
+import { Button, Card, Dialog, DialogTrigger, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Input } from '@components/ui';
 import { Product } from '@/components/ui/default/product';
 
 import { ArrowDown, ArrowUp, Search, SquarePlus } from 'lucide-react';
@@ -68,12 +68,16 @@ export function Products () {
 					Produtos
 				</h2>
 
-				<Button
-					variant = 'default'
-				>
-					<SquarePlus className = 'mr-2 h-4 w-4'/>
-					Criar Produto
-				</Button>
+				<Dialog>
+					<DialogTrigger asChild>
+						<Button
+							variant = 'default'
+						>
+							<SquarePlus className = 'mr-2 h-4 w-4'/>
+							Criar Produto
+						</Button>
+					</DialogTrigger>
+				</Dialog>
 			</div>
 
 			<Card>
