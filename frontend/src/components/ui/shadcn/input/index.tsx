@@ -1,4 +1,4 @@
-import type { InputProps } from '@/types/components/input';
+import type { InputProps } from '@/types/components/ui/input';
 
 import { cn } from '@/lib/utils';
 

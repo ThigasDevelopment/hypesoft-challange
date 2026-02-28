@@ -1,4 +1,4 @@
-import type { CardProps } from '@/types/components/card';
+import type { CardProps } from '@/types/components/ui/card';
 import { cn } from '@/lib/utils';
 
 export function Card ({ className, ...props }: CardProps) {

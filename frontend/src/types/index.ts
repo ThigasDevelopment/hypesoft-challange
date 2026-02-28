@@ -1,7 +1,7 @@
-export * from './components/button';
-export * from './components/card';
-export * from './components/category';
-export * from './components/input';
-export * from './components/product';
+export * from './components/ui/button';
+export * from './components/ui/card';
+export * from './components/ui/category';
+export * from './components/ui/input';
+export * from './components/ui/product';
 
 export * from './router/routes';
