@@ -3,13 +3,7 @@ import { AuthGuard } from './auth';
 import { type AppRoute } from '@/types/index';
 
 import { DashboardLayout } from '@/components/layout/dashboard';
-
-import { Login } from '@/pages';
-import { NotFound } from '@/pages';
-
-import { Categories } from '@/pages';
-import { Dashboard } from '@/pages';
-import { Products } from '@/pages';
+import { Categories, Dashboard, Login, NotFound, Products } from '@/pages';
 
 export const routes: AppRoute[] = [
 	{
