@@ -3,14 +3,14 @@ import { Chart, ChartContainer, ChartTypes } from '@components/charts';
 import type { ChartProps } from '@/types';
 import { cn } from '@/lib/utils';
 
-export function ChartDefault ({ className, list, type = 'bar' }: ChartProps) {
+export function ChartDefault ({ className, type = 'bar', ...props }: ChartProps) {
 	const Component = ChartTypes[type];
 
 	return (
 		<Chart>
 			<ChartContainer>
 				<Component
-					data = { list }
+					data = { props.list }
 					className = { cn ('', className) }
 				>
 
