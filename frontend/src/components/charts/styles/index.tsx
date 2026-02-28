@@ -35,3 +35,25 @@ export function ChartContainer ({ className, children, ...props }: ComponentProp
 		</Recharts.ResponsiveContainer>
 	)
 }
+
+export function ChartXData ({ className, ...props }: ComponentProps<typeof Recharts.XAxis>) {
+	return (
+		<Recharts.XAxis
+			data-slot = 'chart-x-data'
+			className = { cn ('', className) }
+
+			{ ...props }
+		/>
+	)
+}
+
+export function ChartYData ({ className, ...props }: ComponentProps<typeof Recharts.YAxis>) {
+	return (
+		<Recharts.YAxis
+			data-slot = 'chart-y-data'
+			className = { cn ('', className) }
+
+			{ ...props }
+		/>
+	)
+}
