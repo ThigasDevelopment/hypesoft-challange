@@ -5,7 +5,6 @@ import { Error, Loading } from '@/components/ui';
 
 export function AuthGuard () {
 	const auth = useAuth ();
-
 	if (auth.isLoading) {
 		return (
             <Loading/>
@@ -21,5 +20,5 @@ export function AuthGuard () {
 	if (!auth.isAuthenticated) {
 		return <Navigate to = '/login' replace />
 	}
-	return <Outlet />
+	return <Outlet/>
 }
