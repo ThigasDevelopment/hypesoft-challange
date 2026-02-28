@@ -104,7 +104,7 @@ interface DialogFooterProps extends ComponentProps<'div'> {
 	showCloseButton?: boolean;
 }
 
-export function DialogFooter ({ className, children, showCloseButton = true, ...props }: DialogFooterProps) {
+export function DialogFooter ({ className, children, showCloseButton = false, ...props }: DialogFooterProps) {
 	return (
 		<div
 			data-slot = 'dialog-footer'
