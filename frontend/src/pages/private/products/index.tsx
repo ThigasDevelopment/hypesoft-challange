@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import { Button, Card, Dialog, DialogTrigger, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Input } from '@components/ui';
-import { Product } from '@/components/ui/default/product';
+import { Button, Card, Dialog, DialogTrigger, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Input, Product } from '@components/ui';
 
 import { ArrowDown, ArrowUp, Search, SquarePlus } from 'lucide-react';
 

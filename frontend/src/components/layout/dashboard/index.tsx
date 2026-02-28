@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { useAuth } from 'react-oidc-context';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 
-import { Button } from '@/components/ui/shadcn/button';
-import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownTrigger } from '@/components/ui/shadcn/dropdown';
+import { Button, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownTrigger } from '@/components/ui';
 
 import { useTheme } from '@/hooks/themes';
 

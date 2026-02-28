@@ -1,12 +1,7 @@
 import { useAuth } from 'react-oidc-context';
 import { Navigate } from 'react-router-dom';
 
-import { Button } from '@/components/ui/shadcn/button';
-import { Card } from '@/components/ui/shadcn/card';
-
-import { Error } from '@/components/ui/default/error';
-import { Loading } from '@/components/ui/default/loading';
-
+import { Button, Card, Error, Loading } from '@/components/ui';
 import { useTheme } from '@/hooks/themes';
 
 import { LayoutDashboardIcon } from 'lucide-react';

@@ -1,5 +1,4 @@
-import { Button } from '@/components/ui/shadcn/button';
-import { Card } from '@/components/ui/shadcn/card';
+import { Button, Card } from '@/components/ui';
 
 import { useTheme } from '@/hooks/themes';
 
