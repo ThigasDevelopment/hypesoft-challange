@@ -1,16 +1,21 @@
 import { useAuth } from 'react-oidc-context';
-
 import { Navigate, Outlet } from 'react-router-dom';
+
+import { Error, Loading } from '@/components/ui';
 
 export function AuthGuard () {
 	const auth = useAuth ();
 
 	if (auth.isLoading) {
 		return (
-            <div className = 'flex h-screen items-center justify-center'>
-                <div className = 'animate-spin rounded-full h-8 w-8 border-b-2 border-primary'/>
-            </div>
+            <Loading/>
         )
+	}
+
+	if (auth.error) {
+		return (
+			<Error/>
+		)
 	}
 
 	if (!auth.isAuthenticated) {
