@@ -3,10 +3,25 @@ import * as Recharts from 'recharts';
 
 import { cn } from '@/lib/utils';
 
-export const ChartTypes = {
+export const ChartTypes: Record<string, { component: any, item: any }> = {
 	'bar': {
 		component: Recharts.BarChart,
 		item: Recharts.Bar,
+	},
+
+	'line': {
+		component: Recharts.LineChart,
+		item: Recharts.Line,
+	},
+
+	'area': {
+		component: Recharts.AreaChart,
+		item: Recharts.Area,
+	},
+
+	'pie': {
+		component: Recharts.PieChart,
+		item: Recharts.Pie,
 	},
 };
 
