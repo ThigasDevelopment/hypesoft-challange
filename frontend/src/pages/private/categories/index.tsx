@@ -88,7 +88,7 @@ export function Categories () {
 					</Dropdown>
 				</div>
 
-				<div className = 'flex flex-col gap-2 sm:items-center sm:justify-center mb-2'>
+				<div className = 'flex flex-col gap-4 sm:items-center sm:justify-center mb-2'>
 					{
 						filteredCategories.length > 0 ? (
 							filteredCategories.map (
