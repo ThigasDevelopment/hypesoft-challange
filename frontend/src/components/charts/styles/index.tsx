@@ -4,7 +4,10 @@ import * as Recharts from 'recharts';
 import { cn } from '@/lib/utils';
 
 export const ChartTypes = {
-	'bar': Recharts.BarChart,
+	'bar': {
+		component: Recharts.BarChart,
+		item: Recharts.Bar,
+	},
 };
 
 export function Chart ({ className, children, ...props }: ComponentProps<'div'>) {
@@ -52,6 +55,23 @@ export function ChartYData ({ className, ...props }: ComponentProps<typeof Recha
 		<Recharts.YAxis
 			data-slot = 'chart-y-data'
 			className = { cn ('', className) }
+
+			{ ...props }
+		/>
+	)
+}
+
+export function ChartTooltip ({ ...props }: ComponentProps<typeof Recharts.Tooltip>) {
+	return (
+		<Recharts.Tooltip
+			data-slot = 'chart-tooltip'
+			contentStyle = {
+				{ background: 'var(--bg-color)', borderRadius: '10px' }
+			}
+
+			itemStyle = {
+				{ color: 'var(--primary-color)' }
+			}
 
 			{ ...props }
 		/>
