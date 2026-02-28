@@ -1,5 +1,6 @@
 export * from './shadcn/button';
 export * from './shadcn/card';
+export * from './shadcn/dialog';
 export * from './shadcn/dropdown';
 export * from './shadcn/input';
 
