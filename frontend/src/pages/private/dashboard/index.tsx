@@ -129,7 +129,22 @@ export function Dashboard() {
 							<Layers className = 'h-6 w-6 text-muted-foreground'/>
 						</div>
 
-						<ChartDefault list = { dummyCategoryData }/>
+						<ChartDefault
+							list = { dummyCategoryData }
+
+							fields = {
+								{
+									data: {
+										key: 'name',
+									},
+
+									item: {
+										key: 'amount',
+										name: 'Quantidade',
+									}
+								}
+							}
+						/>
 					</Card>
 				</div>
 			</div>

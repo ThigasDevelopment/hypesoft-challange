@@ -16,17 +16,17 @@ export function ChartDefault ({ className, type = 'bar', ...props }: ChartProps)
 					data = { props.list }
 					className = { cn ('', className) }
 				>
-					<ChartXData dataKey = 'name' tick = { { fill: 'var(--text-color)' } }/>
+					<ChartXData dataKey = { props.fields.data.key } tick = { { fill: 'var(--text-color)' } }/>
 					<ChartYData tick = { { fill: 'var(--text-color)' } }/>
 
 					<ChartTooltip/>
 					
 					<ComponentItem
-						dataKey = 'amount'
-						name = 'Quantidade'
+						dataKey = { props.fields.item.key }
+						name = { props.fields.item.name }
 
-						radius = { 5 }
-						barSize = { 15 }
+						radius = { props.fields.item.radius || 5 }
+						barSize = { props.fields.item.size || 15 }
 						
 						fill = 'var(--primary-color)'
 					/>
