@@ -24,7 +24,7 @@ export function DashboardLayout () {
 				isMenuOpen && <div className = 'fixed inset-0 bg-black/50 z-30 sm:hidden' onClick = { () => setMenuOpen (false) } />
 			}
 
-			<aside className = { `fixed left-0 top-0 z-40 h-full w-64 border-r px-4 py-6 bg-secondary transform transition-transform duration-200 ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 sm:fixed sm:z-20 sm:h-full sm:w-64 sm:border-r sm:px-4 sm:py-6` }>
+			<aside className = { `fixed left-0 top-0 z-40 h-full w-64 border-r-2 px-4 py-6 bg-secondary transform transition-transform duration-200 ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 sm:fixed sm:z-20 sm:h-full sm:w-64 sm:border-r sm:px-4 sm:py-6` }>
 				<div className = 'mb-4 flex items-center justify-between sm:justify-center'>
 					<div className = 'flex items-center gap-2'>
 						<h1 className = 'flex justify-center items-center gap-1 text-2xl font-bold'><LayoutDashboardIcon/> Hypesoft</h1>
@@ -32,7 +32,9 @@ export function DashboardLayout () {
 					</div>
 				</div>
 
-				<div className = 'flex-1 space-y-2'>
+				<div className = 'block w-[calc(100%+2rem)] -mx-4 border-b-2'/>
+
+				<div className = 'flex-1 space-y-2 mt-4'>
 					<Link
 						to = '/'
 
