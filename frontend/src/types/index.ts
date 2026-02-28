@@ -1,3 +1,5 @@
+export * from './components/charts/default';
+
 export * from './components/ui/button';
 export * from './components/ui/card';
 export * from './components/ui/category';
