@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { Button, Card, Dialog, DialogTrigger, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Input, Product } from '@components/ui';
+import { CreateProductForm } from '@/components/forms';
 
 import { ArrowDown, ArrowUp, Search, SquarePlus } from 'lucide-react';
 
@@ -76,6 +77,8 @@ export function Products () {
 							Criar Produto
 						</Button>
 					</DialogTrigger>
+
+					<CreateProductForm/>
 				</Dialog>
 			</div>
 
