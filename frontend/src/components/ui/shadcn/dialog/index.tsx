@@ -108,7 +108,7 @@ export function DialogFooter ({ className, children, showCloseButton = false, ..
 	return (
 		<div
 			data-slot = 'dialog-footer'
-			className = { cn ('bg-muted/10 -mx-4 -mb-4 rounded-b-xl border-t p-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end', className) }
+			className = { cn ('bg-muted/10 -mx-2 -mb-4 rounded-b-xl border-t p-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:items-center', className) }
 
 			{ ...props }
 		>
