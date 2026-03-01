@@ -4,6 +4,7 @@ export * from './shadcn/dialog';
 export * from './shadcn/dropdown';
 export * from './shadcn/field';
 export * from './shadcn/input';
+export * from './shadcn/label';
 
 export * from './default/category';
 export * from './default/error';
