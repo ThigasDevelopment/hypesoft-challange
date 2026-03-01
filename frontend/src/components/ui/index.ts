@@ -2,6 +2,7 @@ export * from './shadcn/button';
 export * from './shadcn/card';
 export * from './shadcn/dialog';
 export * from './shadcn/dropdown';
+export * from './shadcn/field';
 export * from './shadcn/input';
 
 export * from './default/category';
