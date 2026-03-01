@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-import { Button, Card, Category, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Input } from '@components/ui';
+import { Button, Card, Category, Dialog, DialogTrigger, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Input } from '@components/ui';
 
 import { ArrowDown, ArrowUp, Search, SquarePlus } from 'lucide-react';
+import { CreateCategoryForm } from '@/components/forms';
 
 const dummyCategories: any[] = [
 	{ id: '1', name: 'Eletrônicos', date: 1772350895 },
@@ -46,12 +47,18 @@ export function Categories () {
 					Categorias
 				</h2>
 
-				<Button
-					variant = 'default'
-				>
-					<SquarePlus className = 'mr-2 h-4 w-4'/>
-					Criar Categoria
-				</Button>
+				<Dialog>
+					<DialogTrigger asChild>
+						<Button
+							variant = 'default'
+						>
+							<SquarePlus className = 'mr-2 h-4 w-4'/>
+							Criar Categoria
+						</Button>
+					</DialogTrigger>
+
+					<CreateCategoryForm/>
+				</Dialog>
 			</div>
 
 			<Card>
