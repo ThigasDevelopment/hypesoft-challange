@@ -131,6 +131,7 @@ export function Dashboard() {
 
 						<ChartDefault
 							list = { dummyCategoryData }
+							type = 'line'
 
 							fields = {
 								{

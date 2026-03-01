@@ -67,7 +67,7 @@ export function Categories () {
 						<Search className = 'absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground'/>
 
 						<Input
-							placeholder = 'Buscar categoria...'
+							placeholder = 'Buscar categorias...'
 							value = { search }
 							onChange = { (e) => setSearch (e.target.value) }
 							className = 'pl-8 pr-2 py-2 border rounded w-full sm:w-48 h-12 focus:outline-none focus:ring'
