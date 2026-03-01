@@ -117,7 +117,7 @@ export function FieldError ({ className, children, errors, ...props }: Component
 			role = 'alert'
 
 			data-slot = 'field-error'
-			className = { cn ('text-destructive text-sm font-normal', className) }
+			className = { cn ('text-danger text-sm font-normal', className) }
 
 			{ ...props }
 		>
