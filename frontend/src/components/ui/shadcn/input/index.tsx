@@ -1,3 +1,5 @@
+'use client';
+
 import type { InputProps } from '@/types/components/ui/input';
 
 import { cn } from '@/lib/utils';

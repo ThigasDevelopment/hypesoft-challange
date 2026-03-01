@@ -1,3 +1,5 @@
+'use client';
+
 import { style } from './style';
 
 import { useMemo, type ComponentProps } from 'react';

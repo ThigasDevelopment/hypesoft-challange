@@ -1,3 +1,5 @@
+'use client';
+
 import type { CardProps } from '@/types/components/ui/card';
 import { cn } from '@/lib/utils';
 

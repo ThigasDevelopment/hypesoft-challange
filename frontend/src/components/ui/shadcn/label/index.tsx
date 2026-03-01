@@ -1,3 +1,5 @@
+'use client';
+
 import type { ComponentProps } from 'react';
 import { Label as ShadcnLabel } from 'radix-ui';
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { style } from './style';
 
 import { forwardRef } from 'react';
