@@ -40,7 +40,7 @@ export function CreateCategoryForm () {
 						control = { control }
 
 						render = { ({ field, fieldState }) => (
-							<Field data-invalid = { fieldState.invalid } className = 'grid grid-cols-4 items-center justify-between gap-x-4 gap-y-1'>
+							<Field data-invalid = { fieldState.invalid } className = 'grid grid-cols-4 items-center justify-between gap-x-4 gap-y-1 p-2'>
 								<Label htmlFor = 'form-category-name' className = 'text-sm font-medium'>Nome</Label>
 								<Input { ...field } className = 'col-span-3' id = 'form-category-name' aria-invalid = { fieldState.invalid } placeholder = 'Nome da categoria' autoComplete = 'off'/>
 

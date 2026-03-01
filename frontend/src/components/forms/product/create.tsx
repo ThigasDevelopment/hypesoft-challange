@@ -47,7 +47,7 @@ export function CreateProductForm () {
 						control = { control }
 
 						render = { ({ field, fieldState }) => (
-							<Field data-invalid = { fieldState.invalid } className = 'grid grid-cols-4 items-center justify-between gap-x-4 gap-y-1'>
+							<Field data-invalid = { fieldState.invalid } className = 'grid grid-cols-4 items-center justify-between gap-x-4 gap-y-1 p-2'>
 								<Label htmlFor = 'form-product-name' className = 'text-sm font-medium'>Nome</Label>
 								<Input { ...field } className = 'col-span-3' id = 'form-product-name' aria-invalid = { fieldState.invalid } placeholder = 'Nome do produto' autoComplete = 'off'/>
 
@@ -69,7 +69,7 @@ export function CreateProductForm () {
 						control = { control }
 
 						render = { ({ field, fieldState }) => (
-							<Field data-invalid = { fieldState.invalid } className = 'grid grid-cols-4 items-center justify-between gap-x-4 gap-y-1'>
+							<Field data-invalid = { fieldState.invalid } className = 'grid grid-cols-4 items-center justify-between gap-x-4 gap-y-1 p-2'>
 								<Label htmlFor = 'form-product-description' className = 'text-sm font-medium'>Descrição</Label>
 								<Input { ...field } className = 'col-span-3' id = 'form-product-description' aria-invalid = { fieldState.invalid } placeholder = 'Descrição do produto' autoComplete = 'off'/>
 
@@ -91,7 +91,7 @@ export function CreateProductForm () {
 						control = { control }
 
 						render = { ({ field, fieldState }) => (
-							<Field data-invalid = { fieldState.invalid } className = 'grid grid-cols-4 items-center justify-between gap-x-4 gap-y-1'>
+							<Field data-invalid = { fieldState.invalid } className = 'grid grid-cols-4 items-center justify-between gap-x-4 gap-y-1 p-2'>
 								<Label htmlFor = 'form-product-stock' className = 'text-sm font-medium'>Estoque</Label>
 								<Input { ...field } className = 'col-span-3' id = 'form-product-stock' aria-invalid = { fieldState.invalid } placeholder = 'Estoque do produto' autoComplete = 'off'/>
 
@@ -113,7 +113,7 @@ export function CreateProductForm () {
 						control = { control }
 
 						render = { ({ field, fieldState }) => (
-							<Field data-invalid = { fieldState.invalid } className = 'grid grid-cols-4 items-center justify-between gap-x-4 gap-y-1'>
+							<Field data-invalid = { fieldState.invalid } className = 'grid grid-cols-4 items-center justify-between gap-x-4 gap-y-1 p-2'>
 								<Label htmlFor = 'form-product-price' className = 'text-sm font-medium'>Preço</Label>
 								<Input { ...field } className = 'col-span-3' id = 'form-product-price' aria-invalid = { fieldState.invalid } placeholder = 'Preço do produto' autoComplete = 'off'/>
 
