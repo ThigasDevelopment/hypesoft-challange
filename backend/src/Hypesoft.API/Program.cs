@@ -16,7 +16,11 @@ using Hypesoft.Infrastructure;
 using FluentValidation;
 using MediatR;
 
+using DotNetEnv;
+
 using System.Threading.RateLimiting;
+
+Env.Load("../../../.env");
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration);

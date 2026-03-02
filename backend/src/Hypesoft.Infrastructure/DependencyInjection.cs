@@ -12,10 +12,8 @@ public static class DependencyInjection
 {
 	public static IServiceCollection AddInfrastructure (this IServiceCollection services, IConfiguration configuration)
 	{
-		var settings = configuration.GetSection ("MongoDBSettings");
-
-		var connection = settings["ConnectionString"];
-		var database = settings["Database"];
+		var connection = Environment.GetEnvironmentVariable("MONGO_CONNECTION");
+		var database = Environment.GetEnvironmentVariable("MONGO_DATABASE");
 
 		services.AddScoped<IMongoDatabase>(service =>
 		{
