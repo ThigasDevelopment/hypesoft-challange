@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/shadcn/button';
 
-export function Error () {
+import { cn } from '@/lib/utils';
+
+export function Error ({ className }: { className?: string }) {
 	return (
-		<div className = 'flex h-screen flex-col items-center justify-center gap-4 bg-background p-4 text-center'>
+		<div className = { cn ('flex h-screen flex-col items-center justify-center gap-4 bg-background p-4 text-center', className) }>
 			<div className = 'bg-destructive/10 p-4 rounded-full'>
 				<span className = 'text-destructive text-xl font-bold'>!</span>
 			</div>
