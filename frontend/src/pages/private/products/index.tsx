@@ -13,10 +13,7 @@ export function Products () {
 	const [ filter, setFilter ] = useState ('none');
 	const [ search, setSearch ] = useState ('');
 
-	const { data, isLoading, error } = useProducts ({
-		search: search !== '' ? search : undefined,
-		categoryId: categorie !== 'all' ? categorie : undefined,
-	});
+	const { data, isLoading, error } = useProducts ();
 
 	const { data: categoriesData } = useCategories ();
 	const categories = Array.isArray (categoriesData) ? categoriesData : (categoriesData?.items || [ ]);
@@ -27,7 +24,8 @@ export function Products () {
 	}, { } as Record<string, string>);
 
 	let products = Array.isArray (data) ? data : (data?.items || [ ]);
-	products = products.filter ((product: any) => categorie === 'all' || product.categoryId === categorie);
+	products = products.filter ((product: any) => product.name.toLowerCase ().includes (search.toLowerCase ())).
+		filter ((product: any) => categorie === 'all' || product.categoryId === categorie);
 
 	if (filter !== 'none') {
 		switch (filter) {
