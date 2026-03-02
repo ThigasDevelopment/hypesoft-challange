@@ -1,8 +1,13 @@
+using Hypesoft.Application.Commands;
+using Hypesoft.Application.Queries;
+
 using Hypesoft.Domain.Entities;
 using Hypesoft.Domain.Repositories;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using MediatR;
 
 namespace Hypesoft.API.Controllers;
 
@@ -10,24 +15,28 @@ namespace Hypesoft.API.Controllers;
 [Route("api/[controller]")]
 public class CategoriesController : ControllerBase
 {
-	private readonly ICategoryRepository _repository;
+	private readonly IMediator _mediator;
 
-	public CategoriesController(ICategoryRepository repository)
+	public CategoriesController(IMediator mediator)
 	{
-		_repository = repository;
+		_mediator = mediator;
 	}
 
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var result = await _repository.GetAllAsync();
+		var query = new GetAllCategoriesQuery();
+
+		var result = await _mediator.Send(query);
 		return Ok(result);
 	}
 
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetById(string id)
 	{
-		var result = await _repository.GetByIdAsync(id);
+		var query = new GetCategoryByIdQuery(id);
+
+		var result = await _mediator.Send(query);
 		if (result == null)
 			return NotFound();
 
@@ -36,22 +45,9 @@ public class CategoriesController : ControllerBase
 
 	[Authorize]
 	[HttpPost]
-	public async Task<IActionResult> Create(Category category)
+	public async Task<IActionResult> Create([FromBody] CreateCategoryCommand command)
 	{
-		await _repository.CreateAsync(category);
-
-		return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
-	}
-
-	[Authorize]
-	[HttpDelete("{id}")]
-	public async Task<IActionResult> Delete(string id)
-	{
-		var category = await _repository.GetByIdAsync(id);
-		if (category == null)
-			return NotFound();
-
-		await _repository.DeleteAsync(id);
-		return NoContent();
+		var result = await _mediator.Send(command);
+		return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
 	}
 }
