@@ -15,7 +15,6 @@ public class ProductRepository : IProductRepository
 	}
 
 	public async Task<List<Product>> GetAllAsync() => await _collection.Find(_ => true).ToListAsync();
-	public async Task<List<Product>> GetByCategoryIdAsync(string categoryId) => await _collection.Find(p => p.CategoryId == categoryId).ToListAsync();
 	public async Task<Product?> GetByIdAsync(string id) => await _collection.Find(p => p.Id == id).FirstOrDefaultAsync();
 
 	public async Task CreateAsync(Product product) => await _collection.InsertOneAsync(product);
