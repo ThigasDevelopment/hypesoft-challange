@@ -23,8 +23,11 @@ public class CategoriesController : ControllerBase
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetAll()
+	public async Task<IActionResult> GetAll([FromQuery] string? id)
 	{
+		if (!string.IsNullOrEmpty(id))
+			return await GetById(id);
+
 		var query = new GetAllCategoriesQuery();
 
 		var result = await _mediator.Send(query);
