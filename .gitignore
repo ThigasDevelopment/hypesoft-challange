@@ -2,8 +2,8 @@
 node_modules/
 dist/
 
-backend/src/Hypesoft.API/bin/
-backend/src/Hypesoft.API/obj/
+backend/src/**/bin/
+backend/src/**/obj/
 
 # Files
 .env
