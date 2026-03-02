@@ -71,8 +71,8 @@ public class ProductsController : ControllerBase
 	}
 
 	[Authorize]
-	[HttpDelete("{id}")]
-	public async Task<IActionResult> Delete(string id)
+	[HttpDelete]
+	public async Task<IActionResult> Delete([FromQuery] string id)
 	{
 		var command = new DeleteProductCommand(id);
 
