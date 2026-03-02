@@ -2,11 +2,15 @@ using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
+using Hypesoft.API.Middlewares;
+
 using Hypesoft.Application;
 using Hypesoft.Application.Behaviors;
 using Hypesoft.Application.Commands;
 using Hypesoft.Application.Validators;
+
 using Hypesoft.Domain;
+
 using Hypesoft.Infrastructure;
 
 using FluentValidation;
@@ -27,6 +31,9 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Up
 builder.Services.AddValidatorsFromAssembly(typeof(CreateProductCommandValidator).Assembly);
 builder.Services.AddValidatorsFromAssembly(typeof(CreateCategoryCommandValidator).Assembly);
 builder.Services.AddValidatorsFromAssembly(typeof(UpdateProductCommandValidator).Assembly);
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
@@ -86,7 +93,8 @@ app.UseCors("AllowAll");
 app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<Hypesoft.API.Middlewares.RequestLoggingMiddleware>();
+app.UseMiddleware<RequestLoggingMiddleware>();
 app.MapControllers().RequireRateLimiting("fixed");
+app.UseExceptionHandler(); 
 
 app.Run();
