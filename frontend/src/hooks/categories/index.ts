@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 
-import type { CategoryParams } from '@/types';
 import { getCategories } from '@/services/categories';
 
-export function useCategories (params?: CategoryParams) {
+export function useCategories () {
 	return useQuery ({
-		queryKey: [ 'categories', params ],
-		queryFn: () => getCategories (params),
+		queryKey: [ 'categories' ],
+		queryFn: () => getCategories (),
 	});
 }

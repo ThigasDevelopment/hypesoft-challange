@@ -1,7 +1,3 @@
-export interface CategoryParams {
-	search?: string;
-};
-
 export interface Category {
 	id: string;
 

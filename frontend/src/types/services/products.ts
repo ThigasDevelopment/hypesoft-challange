@@ -1,10 +1,3 @@
-export interface ProductsParams {
-	page?: number;
-	search?: string;
-	pageSize?: number;
-	categoryId?: string;
-};
-
 export interface Product {
 	id: string;
 
