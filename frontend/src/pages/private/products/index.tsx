@@ -1,17 +1,12 @@
 import { useState } from 'react';
+
 import { useProducts } from '@/hooks/products';
+import { useCategories } from '@/hooks/categories';
 
 import { Button, Card, Dialog, DialogTrigger, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Error, Input, Loading, Product } from '@components/ui';
 import { CreateProductForm } from '@/components/forms';
 
 import { ArrowDown, ArrowUp, Search, SquarePlus } from 'lucide-react';
-
-const dummyCategories: string[] = [
-	'Eletrônicos',
-	'Roupas',
-	'Alimentos',
-	'Teste',
-];
 
 export function Products () {
 	const [ categorie, setCategorie ] = useState ('all');
@@ -23,8 +18,16 @@ export function Products () {
 		categoryId: categorie !== 'all' ? categorie : undefined,
 	});
 
-	const products = Array.isArray (data) ? data : (data?.items || [ ]);
-	products.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
+	const { data: categoriesData } = useCategories ();
+	const categories = Array.isArray (categoriesData) ? categoriesData : (categoriesData?.items || [ ]);
+
+	const categoryMap = categories.reduce ((acc, cat) => {
+		acc[cat.id] = cat.name;
+		return acc;
+	}, { } as Record<string, string>);
+
+	let products = Array.isArray (data) ? data : (data?.items || [ ]);
+	products = products.filter ((product: any) => categorie === 'all' || product.categoryId === categorie);
 
 	if (filter !== 'none') {
 		switch (filter) {
@@ -94,10 +97,10 @@ export function Products () {
 							<DropdownContent align = 'end'>
 								<DropdownGroup>
 									{
-										dummyCategories.map (
-											category => (
-												<DropdownItem className = { categorie === category ? 'bg-muted' : '' } onClick = { () => setCategorie (categorie === category ? 'all' : category) } key = { category }>
-													{ category }
+										categories.map (
+											(category: any) => (
+												<DropdownItem className = { categorie === category.id ? 'bg-muted' : '' } onClick = { () => setCategorie (categorie === category.id ? 'all' : category.id) } key = { category.id }>
+													{ category.name }
 												</DropdownItem>
 											)
 										)
@@ -146,7 +149,7 @@ export function Products () {
 												key = { product.id }
 												name = { product.name }
 												desc = { product.description }
-												category = { product.categoryId }
+												category = { categoryMap[product.categoryId] || 'Sem Categoria' }
 												price = { product.price }
 												stock = { product.stock }
 											/>

@@ -8,4 +8,5 @@ export * from './components/ui/product';
 
 export * from './router/routes';
 
+export * from './services/categories';
 export * from './services/products';
