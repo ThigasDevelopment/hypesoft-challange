@@ -11,6 +11,19 @@ services:
     networks:
       - hypesoft_network
 
+  mongodb:
+    image: mongo:7.0-jammy
+    container_name: hypesoft_mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin_password
+    ports:
+      - "8081:8081"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - hypesoft_network
+
   keycloak:
     image: quay.io/keycloak/keycloak:26.1
     container_name: hypesoft_keycloak
@@ -45,18 +58,6 @@ services:
     networks:
       - hypesoft_network
 
-mongodb:
-    image: mongo:7.0-jammy
-    container_name: hypesoft_mongodb
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin_password
-    ports:
-      - "8081:8081"
-    volumes:
-      - mongodb_data:/data/db
-    networks:
-      - hypesoft_network
 
 networks:
   hypesoft_network:
