@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using Hypesoft.Application.Queries;
 
 using Hypesoft.Domain.Entities;

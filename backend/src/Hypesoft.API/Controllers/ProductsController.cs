@@ -46,6 +46,15 @@ public class ProductsController : ControllerBase
 		return Ok(result);
 	}
 
+	[HttpGet("low-stock")]
+	public async Task<IActionResult> GetLowStockProducts()
+	{
+		var query = new GetProductsLowStockQuery();
+
+		var result = await _mediator.Send(query);
+		return Ok(result);
+	}
+
 	[Authorize]
 	[HttpPost]
 	public async Task<IActionResult> Create([FromBody] CreateProductCommand command)
