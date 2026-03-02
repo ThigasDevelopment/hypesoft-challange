@@ -22,7 +22,8 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
 
 		var category = new Category
 		{
-			Name = request.Name
+			Name = request.Name,
+			AdminId = request.AdminId
 		};
 
 		await _repository.CreateAsync(category);
