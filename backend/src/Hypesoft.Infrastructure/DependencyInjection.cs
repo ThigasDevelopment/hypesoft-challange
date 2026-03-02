@@ -17,11 +17,10 @@ public static class DependencyInjection
 		var connection = settings["ConnectionString"];
 		var database = settings["Database"];
 
-		services.AddSingleton<IMongoClient> (new MongoClient (connection));
-		services.AddScoped<IMongoDatabase> (service =>
+		services.AddScoped<IMongoDatabase>(service =>
 		{
-			var client = service.GetRequiredService<IMongoClient> ();
-			return client.GetDatabase (database);
+			var client = new MongoClient(connection);
+			return client.GetDatabase(database);
 		});
 		
 		services.AddScoped<ICategoryRepository, CategoryRepository>();
