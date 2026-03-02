@@ -11,7 +11,7 @@ export default defineConfig (
     return {
       define: {
         'import.meta.env.BASE_URL': JSON.stringify (env.BASE_URL),
-        'import.meta.env.BACKEND_URL': JSON.stringify (env.BACKEND_URL),
+        'import.meta.env.BACKEND_PORT': JSON.stringify (env.BACKEND_PORT),
         'import.meta.env.FRONTEND_PORT': JSON.stringify (env.FRONTEND_PORT),
         'import.meta.env.KEYCLOAK_URL': JSON.stringify (env.KEYCLOAK_URL),
         'import.meta.env.KEYCLOAK_REALM': JSON.stringify (env.KEYCLOAK_REALM),
