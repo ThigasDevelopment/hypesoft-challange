@@ -7,6 +7,7 @@ COPY ["src/Hypesoft.Application/Hypesoft.Application.csproj", "src/Hypesoft.Appl
 COPY ["src/Hypesoft.Domain/Hypesoft.Domain.csproj", "src/Hypesoft.Domain/"]
 COPY ["src/Hypesoft.Infrastructure/Hypesoft.Infrastructure.csproj", "src/Hypesoft.Infrastructure/"]
 
+RUN dotnet clean
 RUN dotnet restore "src/Hypesoft.API/Hypesoft.API.csproj"
 
 COPY . .
