@@ -59,8 +59,8 @@ builder.Services.AddAuthentication(options =>
 }).AddJwtBearer(options =>
 {
     var keycloak = builder.Configuration.GetSection("Keycloak");
-    options.Authority = keycloak["Authority"];
-    options.Audience = keycloak["Audience"];
+    options.Authority = Environment.GetEnvironmentVariable("KEYCLOAK_URL") + "/realms/" + Environment.GetEnvironmentVariable("KEYCLOAK_REALM");
+    options.Audience = Environment.GetEnvironmentVariable("KEYCLOAK_CLIENT_ID");
     options.RequireHttpsMetadata = bool.Parse(keycloak["RequireHttpsMetadata"] ?? "true");
 
     options.TokenValidationParameters = new TokenValidationParameters
