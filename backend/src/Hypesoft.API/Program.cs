@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 // using Hypesoft.Application;
 using Hypesoft.Domain;
@@ -19,6 +21,26 @@ builder.Services.AddCors (options =>
               .AllowAnyMethod ()
               .AllowAnyHeader ();
     });
+});
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    var keycloak = builder.Configuration.GetSection("Keycloak");
+    options.Authority = keycloak["Authority"];
+    options.Audience = keycloak["Audience"];
+    options.RequireHttpsMetadata = bool.Parse(keycloak["RequireHttpsMetadata"] ?? "true");
+
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateAudience = true,
+        ValidateIssuer = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,  
+    };
 });
 
 builder.Services.AddRateLimiter (options =>
@@ -45,7 +67,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseRateLimiter();
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<Hypesoft.API.Middlewares.RequestLoggingMiddleware>();
 app.MapControllers().RequireRateLimiting("fixed");
 
 app.Run();
