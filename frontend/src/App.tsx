@@ -12,8 +12,6 @@ const OICD = {
     },
 };
 
-console.log (import.meta.env);
-
 export function App () {
 	return (
         <AuthProvider { ...OICD }>
