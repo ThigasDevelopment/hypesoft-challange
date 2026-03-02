@@ -22,6 +22,12 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
 		if (product == null)
 			return null;
 
+		var exists = await _repository.GetByNameAsync(request.Name);
+		if (exists is not null && exists.Id != request.Id && exists.CategoryId == request.CategoryId)
+		{
+			throw new Exception("Product with the same name already exists.");
+		}
+
 		product.Name = request.Name;
 		product.Description = request.Description;
 		product.Price = request.Price;
