@@ -12,7 +12,7 @@ using MediatR;
 namespace Hypesoft.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/categories")]
 public class CategoriesController : ControllerBase
 {
 	private readonly IMediator _mediator;
