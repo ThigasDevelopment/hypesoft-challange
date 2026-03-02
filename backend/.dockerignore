@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userprefs
+*.DS_Store
+*.db
+*.log
+.vscode/

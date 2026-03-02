@@ -29,6 +29,21 @@ services:
     networks:
       - hypesoft_network
 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hypesoft_backend
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__MongoDb=mongodb://admin:admin_password@mongodb:27017/Hypesoft?authSource=admin
+    depends_on:
+      - mongodb
+    networks:
+      - hypesoft_network
+
   frontend:
     build:
       context: ./frontend
@@ -45,9 +60,23 @@ services:
     networks:
       - hypesoft_network
 
+mongodb:
+    image: mongo:7.0-jammy
+    container_name: hypesoft_mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin_password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - hypesoft_network
+
 networks:
   hypesoft_network:
     driver: bridge
 
 volumes:
   keycloak_data:
+  mongodb_data:
