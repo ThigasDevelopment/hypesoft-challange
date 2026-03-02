@@ -55,11 +55,13 @@ public class ProductsController : ControllerBase
 	}
 
 	[Authorize]
-	[HttpPut("{id}")]
-	public async Task<IActionResult> Update(string id, [FromBody] UpdateProductCommand command)
+	[HttpPut]
+	public async Task<IActionResult> Update([FromQuery] string id, [FromBody] UpdateProductCommand command)
 	{
-		if (id != command.Id)
-			return BadRequest("ID mismatch");
+		if (string.IsNullOrEmpty(id))
+			return BadRequest("Query ID is required");
+
+		command.Id = id;
 
 		var result = await _mediator.Send(command);
 		if (result == null)
