@@ -1,8 +1,13 @@
+using Hypesoft.Application.Commands;
+using Hypesoft.Application.Queries;
+
 using Hypesoft.Domain.Entities;
 using Hypesoft.Domain.Repositories;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using MediatR;
 
 namespace Hypesoft.API.Controllers;
 
@@ -10,24 +15,28 @@ namespace Hypesoft.API.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-	private readonly IProductRepository _repository;
+	private readonly IMediator _mediator;
 
-	public ProductsController(IProductRepository repository)
+	public ProductsController(IMediator mediator)
 	{
-		_repository = repository;
+		_mediator = mediator;
 	}
 
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var result = await _repository.GetAllAsync();
+		var query = new GetAllProductsQuery();
+
+		var result = await _mediator.Send(query);
 		return Ok(result);
 	}
 
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetById(string id)
 	{
-		var result = await _repository.GetByIdAsync(id);
+		var query = new GetProductByIdQuery(id);
+
+		var result = await _mediator.Send(query);
 		if (result == null)
 			return NotFound();
 
@@ -36,37 +45,36 @@ public class ProductsController : ControllerBase
 
 	[Authorize]
 	[HttpPost]
-	public async Task<IActionResult> Create(Product product)
+	public async Task<IActionResult> Create([FromBody] CreateProductCommand command)
 	{
-		await _repository.CreateAsync(product);
+		var result = await _mediator.Send(command);
+		return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+	}
 
-		return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+	[Authorize]
+	[HttpPut("{id}")]
+	public async Task<IActionResult> Update(string id, [FromBody] UpdateProductCommand command)
+	{
+		if (id != command.Id)
+			return BadRequest("ID mismatch");
+
+		var result = await _mediator.Send(command);
+		if (result == null)
+			return NotFound();
+
+		return Ok(result);
 	}
 
 	[Authorize]
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> Delete(string id)
 	{
-		var product = await _repository.GetByIdAsync(id);
-		if (product == null)
+		var command = new DeleteProductCommand(id);
+
+		var result = await _mediator.Send(command);
+		if (!result)
 			return NotFound();
 
-		await _repository.DeleteAsync(id);
-		return NoContent();
-	}
-
-	[Authorize]
-	[HttpPut("{id}")]
-	public async Task<IActionResult> Update(string id, Product updatedProduct)
-	{
-		if (id != updatedProduct.Id)
-			return BadRequest();
-
-		var existingProduct = await _repository.GetByIdAsync(id);
-		if (existingProduct == null)
-			return NotFound();
-
-		await _repository.UpdateAsync(id, updatedProduct);
 		return NoContent();
 	}
 }
