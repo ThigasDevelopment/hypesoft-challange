@@ -25,7 +25,7 @@ export function Product ({ name, desc, category, price, stock }: ProductProps) {
 				</div>
 			</div>
 
-			<div className = 'mt-4 flex flex-col md:flex-row items-center justify-between text-sm'>
+			<div className = 'mt-4 flex flex-col md:flex-col items-center justify-between text-sm'>
 				<span className = 'font-bold text-muted-foreground'>
 					{ category }
 				</span>

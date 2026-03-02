@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useProducts } from '@/hooks/products';
 
-import { Button, Card, Dialog, DialogTrigger, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Input, Product } from '@components/ui';
+import { Button, Card, Dialog, DialogTrigger, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Error, Input, Loading, Product } from '@components/ui';
 import { CreateProductForm } from '@/components/forms';
 
 import { ArrowDown, ArrowUp, Search, SquarePlus } from 'lucide-react';
@@ -12,51 +13,38 @@ const dummyCategories: string[] = [
 	'Teste',
 ];
 
-const dummyProducts: any[] = [
-	{ id: '1', name: 'Notebook', description: 'Notebook Dell Inspiron 16GB RAM', category: 'Eletrônicos', price: 4200.00, stock: 8 },
-	{ id: '2', name: 'Computador', description: 'Computador Gamer Ryzen 5', category: 'Eletrônicos', price: 3500.00, stock: 5 },
-	{ id: '3', name: 'Celular', description: 'Smartphone Samsung Galaxy', category: 'Eletrônicos', price: 1999.99, stock: 12 },
-	{ id: '4', name: 'Camiseta', description: 'Camiseta de Algodão', category: 'Roupas', price: 49.90, stock: 20 },
-	{ id: '5', name: 'Calça Jeans', description: 'Calça Jeans Masculina', category: 'Roupas', price: 89.90, stock: 15 },
-	{ id: '6', name: 'Tênis', description: 'Tênis Esportivo', category: 'Roupas', price: 120.00, stock: 10 },
-	{ id: '7', name: 'Chocolate', description: 'Chocolate ao Leite', category: 'Alimentos', price: 5.50, stock: 50 },
-	{ id: '8', name: 'Café', description: 'Café em Grãos', category: 'Alimentos', price: 25.00, stock: 30 },
-];
-
 export function Products () {
 	const [ categorie, setCategorie ] = useState ('all');
 	const [ filter, setFilter ] = useState ('none');
-
 	const [ search, setSearch ] = useState ('');
 
-	const filteredProducts = dummyProducts
-		.filter (product => product.name.toLowerCase ().includes (search.toLowerCase ()))
-		.filter (product => categorie === 'all' || product.category.toLowerCase () === categorie.toLowerCase ());
+	const { data, isLoading, error } = useProducts ({
+		search: search !== '' ? search : undefined,
+		categoryId: categorie !== 'all' ? categorie : undefined,
+	});
 
-	if (filteredProducts.length === 0 && filter !== 'none') {
-		setFilter ('none');
-		setCategorie ('all');
-	}
+	const products = Array.isArray (data) ? data : (data?.items || [ ]);
+	products.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
 
 	if (filter !== 'none') {
 		switch (filter) {
 			case 'a-z':
-				filteredProducts.sort ((a, b) => a.name.localeCompare (b.name));
+				products.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
 				break;
 			case 'z-a':
-				filteredProducts.sort ((a, b) => b.name.localeCompare (a.name));
+				products.sort ((a, b) => b.name.toLowerCase ().localeCompare (a.name.toLowerCase ()));
 				break;
 			case 's:0-1':
-				filteredProducts.sort ((a, b) => a.stock - b.stock);
+				products.sort ((a, b) => a.stock - b.stock);
 				break;
 			case 's:1-0':
-				filteredProducts.sort ((a, b) => b.stock - a.stock);
+				products.sort ((a, b) => b.stock - a.stock);
 				break;
 			case 'p:0-1':
-				filteredProducts.sort ((a, b) => a.price - b.price);
+				products.sort ((a, b) => a.price - b.price);
 				break;
 			case 'p:1-0':
-				filteredProducts.sort ((a, b) => b.price - a.price);
+				products.sort ((a, b) => b.price - a.price);
 				break;
 		}
 	}
@@ -143,28 +131,36 @@ export function Products () {
 					</div>
 				</div>
 
-				<div className = 'grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-					{
-						filteredProducts.length > 0 ? (
-							filteredProducts.map (
-								product => (
-									<Product
-										key = { product.id }
-										name = { product.name }
-										desc = { product.description }
-										category = { product.category }
-										price = { product.price }
-										stock = { product.stock }
-									/>
+				{
+					isLoading ? (
+						<Loading className = 'h-24'/>
+					) : error ? (
+						<Error className = 'h-56'/>
+					) : (
+						<div className = 'grid gap-4 grid-cols-1 md:grid-cols-2'>
+							{
+								products.length > 0 ? (
+									products.map (
+										(product: any) => (
+											<Product
+												key = { product.id }
+												name = { product.name }
+												desc = { product.description }
+												category = { product.categoryId }
+												price = { product.price }
+												stock = { product.stock }
+											/>
+										)
+									)
+								) : (
+									<h1 className = 'col-span-full text-center py-8 text-muted-foreground'>
+										Nenhum produto encontrado
+									</h1>
 								)
-							)
-						) : (
-							<h1 className = 'col-span-full text-center py-8 text-muted-foreground'>
-								Nenhum produto encontrado
-							</h1>
-						)
-					}
-				</div>
+							}
+						</div>
+					)
+				}
 			</Card>
 		</div>
 	)
