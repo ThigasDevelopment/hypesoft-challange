@@ -1,6 +1,7 @@
 using Hypesoft.Domain.Entities;
 using Hypesoft.Domain.Repositories;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hypesoft.API.Controllers;
@@ -33,6 +34,7 @@ public class ProductsController : ControllerBase
 		return Ok(result);
 	}
 
+	[Authorize]
 	[HttpPost]
 	public async Task<IActionResult> Create(Product product)
 	{
@@ -41,6 +43,7 @@ public class ProductsController : ControllerBase
 		return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
 	}
 
+	[Authorize]
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> Delete(string id)
 	{
@@ -49,6 +52,21 @@ public class ProductsController : ControllerBase
 			return NotFound();
 
 		await _repository.DeleteAsync(id);
+		return NoContent();
+	}
+
+	[Authorize]
+	[HttpPut("{id}")]
+	public async Task<IActionResult> Update(string id, Product updatedProduct)
+	{
+		if (id != updatedProduct.Id)
+			return BadRequest();
+
+		var existingProduct = await _repository.GetByIdAsync(id);
+		if (existingProduct == null)
+			return NotFound();
+
+		await _repository.UpdateAsync(id, updatedProduct);
 		return NoContent();
 	}
 }

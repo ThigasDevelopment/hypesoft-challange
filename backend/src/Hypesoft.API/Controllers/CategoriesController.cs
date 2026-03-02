@@ -1,6 +1,7 @@
 using Hypesoft.Domain.Entities;
 using Hypesoft.Domain.Repositories;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hypesoft.API.Controllers;
@@ -33,6 +34,7 @@ public class CategoriesController : ControllerBase
 		return Ok(result);
 	}
 
+	[Authorize]
 	[HttpPost]
 	public async Task<IActionResult> Create(Category category)
 	{
@@ -41,6 +43,7 @@ public class CategoriesController : ControllerBase
 		return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
 	}
 
+	[Authorize]
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> Delete(string id)
 	{
