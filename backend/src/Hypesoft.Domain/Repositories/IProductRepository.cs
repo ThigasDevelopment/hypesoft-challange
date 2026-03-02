@@ -6,6 +6,7 @@ namespace Hypesoft.Domain.Repositories
 	{
 		Task<List<Product>> GetAllAsync();
 		Task<Product?> GetByIdAsync(string id);
+		Task<Product?> GetByNameAsync(string name);
 
 		Task CreateAsync(Product product);
 		Task UpdateAsync(string id, Product product);

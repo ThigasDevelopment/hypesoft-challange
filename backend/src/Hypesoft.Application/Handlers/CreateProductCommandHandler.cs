@@ -16,6 +16,12 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
 	public async Task<Product> Handle(CreateProductCommand request, CancellationToken token)
 	{
+		var exists = await _repository.GetByNameAsync(request.Name);
+		if (exists is not null && exists.CategoryId == request.CategoryId)
+		{
+			throw new Exception("Product with the same name already exists.");
+		}
+
 		var product = new Product
 		{
 			Name = request.Name,
