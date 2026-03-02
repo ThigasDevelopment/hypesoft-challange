@@ -29,21 +29,6 @@ services:
     networks:
       - hypesoft_network
 
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: hypesoft_backend
-    ports:
-      - "5000:8080"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__MongoDb=mongodb://admin:admin_password@mongodb:27017/Hypesoft?authSource=admin
-    depends_on:
-      - mongodb
-    networks:
-      - hypesoft_network
-
   frontend:
     build:
       context: ./frontend
