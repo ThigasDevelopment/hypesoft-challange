@@ -1,41 +1,39 @@
 import { useState } from 'react';
 
-import { Button, Card, Category, Dialog, DialogTrigger, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Input } from '@components/ui';
+import { useCategories } from '@/hooks/categories';
+
+import { Button, Card, Category, Dialog, DialogTrigger, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Error, Loading, Input } from '@components/ui';
 
 import { ArrowDown, ArrowUp, Search, SquarePlus } from 'lucide-react';
 import { CreateCategoryForm } from '@/components/forms';
-
-const dummyCategories: any[] = [
-	{ id: '1', name: 'Eletrônicos', date: 1772350895 },
-	{ id: '2', name: 'Roupas', date: 1772450895 },
-	{ id: '3', name: 'Alimentos', date: 1772550895 },
-	{ id: '4', name: 'Teste', date: 1772650895 },
-];
 
 export function Categories () {
 	const [ filter, setFilter ] = useState ('none');
 	const [ search, setSearch ] = useState ('');
 
-	const filteredCategories = dummyCategories.filter (category => category.name.toLowerCase ().includes (search.toLowerCase ()))
-	filteredCategories.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
+	const { data, isLoading, error } = useCategories ();
 
-	if (filteredCategories.length === 0 && filter !== 'none') {
+	let categories = Array.isArray (data) ? data : (data?.items || [ ]);
+	categories = categories.filter ((category: any) => category.name.toLowerCase ().includes (search.toLowerCase ()));
+	categories.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
+
+	if (categories.length === 0 && filter !== 'none') {
 		setFilter ('none');
 	}
 
 	if (filter !== 'none') {
 		switch (filter) {
 			case 'a-z':
-				filteredCategories.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
+				categories.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
 				break;
 			case 'z-a':
-				filteredCategories.sort ((a, b) => b.name.toLowerCase ().localeCompare (a.name.toLowerCase ()));
+				categories.sort ((a, b) => b.name.toLowerCase ().localeCompare (a.name.toLowerCase ()));
 				break;
 			case 'recent-asc':
-				filteredCategories.sort ((a, b) => a.date - b.date);
+				categories.sort ((a, b) => a.createdAt.toLowerCase ().localeCompare (b.createdAt.toLowerCase ()));
 				break;
 			case 'recent-desc':
-				filteredCategories.sort ((a, b) => b.date - a.date);
+				categories.sort ((a, b) => b.createdAt.toLowerCase ().localeCompare (a.createdAt.toLowerCase ()));
 				break;
 		}
 	}
@@ -95,21 +93,29 @@ export function Categories () {
 					</Dropdown>
 				</div>
 
-				<div className = 'flex flex-col gap-4 sm:items-center sm:justify-center mb-2'>
-					{
-						filteredCategories.length > 0 ? (
-							filteredCategories.map (
-								category => (
-									<Category key = { category.id } name = { category.name } date = { new Date (category.date * 1000).toLocaleDateString ('pt-BR') }/>
+				{
+					isLoading ? (
+						<Loading className = 'h-24'/>
+					) : error ? (
+						<Error className = 'h-56'/>
+					) : (
+						<div className = 'flex flex-col gap-4 sm:items-center sm:justify-center mb-2'>
+							{
+								categories.length > 0 ? (
+									categories.map (
+										category => (
+											<Category key = { category.id } name = { category.name } date = { category.createdAt }/>
+										)
+									)
+								) : (
+									<p className = 'text-center text-muted-foreground'>
+										Nenhuma categoria encontrada
+									</p>
 								)
-							)
-						) : (
-							<p className = 'text-center text-muted-foreground'>
-								Nenhuma categoria encontrada
-							</p>
-						)
-					}
-				</div>
+							}
+						</div>
+					)
+				}
 			</Card>
 		</div>
 	)
