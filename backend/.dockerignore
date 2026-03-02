@@ -1,0 +1,14 @@
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/.vs
+**/.vscode
+**/bin/
+**/obj/
+**/out/
+**/testresults/
+**/*.user
+**/*.suo
+**/*.db
+**/*.log

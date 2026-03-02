@@ -41,6 +41,23 @@ services:
       - keycloak-db
     networks:
       - hypesoft_network
+  
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hypesoft_backend
+    env_file:
+      - .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "${BACKEND_PORT:-5000}:8080"
+    depends_on:
+      - keycloak
+      - mongodb
+    networks:
+      - hypesoft_network
 
   frontend:
     build:
