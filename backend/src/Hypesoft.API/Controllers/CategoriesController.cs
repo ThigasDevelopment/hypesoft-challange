@@ -53,4 +53,17 @@ public class CategoriesController : ControllerBase
 		var result = await _mediator.Send(command);
 		return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
 	}
+
+	[Authorize]
+	[HttpDelete]
+	public async Task<IActionResult> Delete([FromQuery] string id)
+	{
+		var command = new DeleteCategoryCommand(id);
+
+		var result = await _mediator.Send(command);
+		if (!result)
+			return NotFound();
+
+		return NoContent();
+	}
 }
