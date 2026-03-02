@@ -18,8 +18,6 @@ public class GlobalExceptionHandler : IExceptionHandler
 
 	public async ValueTask<bool> TryHandleAsync (HttpContext context, Exception exception, CancellationToken token)
 	{
-		_logger.LogError(exception, "An unhandled exception occurred.");
-
 		var details = new ProblemDetails
 		{
 			Instance = context.Request.Path
@@ -27,6 +25,8 @@ public class GlobalExceptionHandler : IExceptionHandler
 
 		if (exception is ValidationException validation)
 		{
+			_logger.LogWarning("Validation failed: {Message}", validation.Message);
+
 			context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
 			details.Title = "Validation Failed";
@@ -37,6 +37,8 @@ public class GlobalExceptionHandler : IExceptionHandler
 		} 
 		else if (exception is ConflictException conflict)
 		{
+			_logger.LogWarning("Conflict error: {Message}", conflict.Message);
+
 			context.Response.StatusCode = StatusCodes.Status409Conflict;
 
 			details.Title = "Conflict";
@@ -45,6 +47,8 @@ public class GlobalExceptionHandler : IExceptionHandler
 		}
 		else
 		{
+			_logger.LogError(exception, "An unhandled exception occurred.");
+
 			context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
 			details.Title = "Internal Server Error";
