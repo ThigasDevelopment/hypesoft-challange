@@ -7,3 +7,5 @@ export * from './components/ui/input';
 export * from './components/ui/product';
 
 export * from './router/routes';
+
+export * from './services/products';
