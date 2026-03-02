@@ -3,9 +3,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 using Hypesoft.Application;
+using Hypesoft.Application.Behaviors;
 using Hypesoft.Application.Commands;
+using Hypesoft.Application.Validators;
 using Hypesoft.Domain;
 using Hypesoft.Infrastructure;
+
+using FluentValidation;
+using MediatR;
 
 using System.Threading.RateLimiting;
 
@@ -18,6 +23,12 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Cr
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<CreateProductCommandHandler>());
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<DeleteProductCommandHandler>());
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<UpdateProductCommandHandler>());
+
+builder.Services.AddValidatorsFromAssembly(typeof(CreateProductCommandValidator).Assembly);
+builder.Services.AddValidatorsFromAssembly(typeof(CreateCategoryCommandValidator).Assembly);
+builder.Services.AddValidatorsFromAssembly(typeof(UpdateProductCommandValidator).Assembly);
+
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddCors (options =>
 {
