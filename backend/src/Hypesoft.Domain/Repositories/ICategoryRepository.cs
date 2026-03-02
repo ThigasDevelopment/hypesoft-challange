@@ -6,6 +6,7 @@ namespace Hypesoft.Domain.Repositories
 	{
 		Task<List<Category>> GetAllAsync();
 		Task<Category?> GetByIdAsync(string id);
+		Task<Category?> GetByNameAsync(string name);
 
 		Task CreateAsync(Category category);
 		Task DeleteAsync(string id);
