@@ -1,4 +1,5 @@
 using Hypesoft.Domain.Entities;
+using Hypesoft.Domain.Exceptions;
 using Hypesoft.Domain.Repositories;
 
 using MediatR;
@@ -19,7 +20,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 		var exists = await _repository.GetByNameAsync(request.Name);
 		if (exists is not null && exists.CategoryId == request.CategoryId)
 		{
-			throw new Exception("Product with the same name already exists.");
+			throw new ConflictException("Product with the same name already exists in this category.");
 		}
 
 		var product = new Product

@@ -1,6 +1,7 @@
 using Hypesoft.Application.Commands;
 
 using Hypesoft.Domain.Entities;
+using Hypesoft.Domain.Exceptions;
 using Hypesoft.Domain.Repositories;
 
 using MediatR;
@@ -25,7 +26,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
 		var exists = await _repository.GetByNameAsync(request.Name);
 		if (exists is not null && exists.Id != request.Id && exists.CategoryId == request.CategoryId)
 		{
-			throw new Exception("Product with the same name already exists.");
+			throw new ConflictException("Product with the same name already exists.");
 		}
 
 		product.Name = request.Name;

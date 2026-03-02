@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
+using Hypesoft.Domain.Exceptions;
+
 using FluentValidation;
 
 namespace Hypesoft.API.Middlewares;
@@ -33,6 +35,14 @@ public class GlobalExceptionHandler : IExceptionHandler
 
 			details.Extensions["errors"] = validation.Errors.Select (e => new { Field = e.PropertyName, Message = e.ErrorMessage });
 		} 
+		else if (exception is ConflictException conflict)
+		{
+			context.Response.StatusCode = StatusCodes.Status409Conflict;
+
+			details.Title = "Conflict";
+			details.Status = StatusCodes.Status409Conflict;
+			details.Detail = conflict.Message;
+		}
 		else
 		{
 			context.Response.StatusCode = StatusCodes.Status500InternalServerError;
