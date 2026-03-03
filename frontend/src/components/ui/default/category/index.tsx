@@ -1,3 +1,4 @@
+import { useAuth } from 'react-oidc-context';
 import { toast } from 'sonner';
 
 import { useDeleteCategory } from '@/hooks/categories';
@@ -27,10 +28,13 @@ export function Category ({ id, name, date }: CategoryProps) {
 		}
 	}
 
+	const auth = useAuth ();
+	const isAdmin = (auth.user?.profile as any)?.realm_access?.roles?.includes ('admin');
+
 	return (
 		<Card className = 'flex w-full items-center justify-between h-16'>
 			<h1 className = 'text-sm'>{ name }<p className = 'text-sm'>Criado em: { formattedDate } </p></h1>
-			<Button variant = 'destructive' onClick = { () => handleDeleteCategory (id) }>Excluir</Button>
+			<Button variant = 'destructive' onClick = { () => handleDeleteCategory (id) } disabled = { !isAdmin }>Excluir</Button>
 		</Card>
 	)
 }
