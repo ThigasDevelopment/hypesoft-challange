@@ -177,6 +177,8 @@ export function Products () {
 											<Product
 												key = { product.id }
 
+												id = { product.id }
+
 												name = { product.name }
 												desc = { product.description }
 
@@ -184,6 +186,7 @@ export function Products () {
 												stock = { product.stock }
 
 												category = { categoriesById[product.categoryId] || 'Sem categoria' }
+												categoryId = { product.categoryId }
 											/>
 										)
 									)

@@ -2,7 +2,7 @@ import { useRef, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useCategories } from '@/hooks/categories';
-import { useCreateProduct } from '@/hooks/products';
+import { useCreateProduct, useUpdateProduct } from '@/hooks/products';
 import { toast } from 'sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,16 +22,16 @@ const createProductSchema = z.object ({
 
 type CreateProductFormData = z.infer<typeof createProductSchema>;
 
-export function CreateProductForm ({ type = 'create' }: { type?: 'create' | 'edit' }) {
+export function CreateProductForm ({ type = 'create', info }: { type?: 'create' | 'edit', info?: { id: string, name: string, description: string, categoryId: string, price: number, stock: number } }) {
 	const { control, reset, handleSubmit } = useForm<CreateProductFormData> ({
 		resolver: zodResolver (createProductSchema) as any,
 
 		defaultValues: {
-			name: '',
-			description: '',
-			category: '',
-			price: 0,
-			stock: 1,
+			name: info?.name || '',
+			description: info?.description || '',
+			category: info?.categoryId || '',
+			price: info?.price || 0,
+			stock: info?.stock || 1,
 		}
 	});
 
@@ -65,6 +65,34 @@ export function CreateProductForm ({ type = 'create' }: { type?: 'create' | 'edi
 		}
 	}
 
+	const updateMutation = useUpdateProduct ();
+	async function handleEditProduct (data: CreateProductFormData) {
+		console.log (info);
+
+		if (!info?.id)
+			return toast.error ('ID do produto não encontrado. Por favor, tente novamente.');
+
+		try {
+			await updateMutation.mutateAsync ({
+				id: info?.id,
+
+				data: {
+					name: data.name,
+					description: data.description,
+					categoryId: data.category,
+					price: Number (data.price),
+					stock: Number (data.stock),
+				}
+			});
+			toast.success (`Produto ${ data.name } editado com sucesso!`);
+			
+			reset ();
+			closeRef.current?.click ();
+		} catch (err) {
+			toast.error ('Ocorreu um erro ao editar o produto. Por favor, tente novamente.');
+		}
+	}
+
 	return (
 		<DialogContent className = 'w-full max-w-xs sm:max-w-lg mx-auto px-2' showCloseButton = { false }>
 			<DialogHeader className = 'p-2'>
@@ -74,7 +102,7 @@ export function CreateProductForm ({ type = 'create' }: { type?: 'create' | 'edi
 				</DialogDescription>
 			</DialogHeader>
 
-			<form id = 'form-create-product' onSubmit = { handleSubmit (handleCreateProduct) } className = 'space-y-4'>
+			<form id = 'form-create-product' onSubmit = { handleSubmit (type === 'create' ? handleCreateProduct : handleEditProduct) } className = 'space-y-4'>
 				<FieldGroup>
 					<Controller
 						name = 'name'
@@ -133,7 +161,7 @@ export function CreateProductForm ({ type = 'create' }: { type?: 'create' | 'edi
 								<Field data-invalid = { fieldState.invalid } className = 'flex flex-col'>
 									<Label htmlFor = 'form-product-category' className = 'pl-1 text-sm font-medium'>Categoria</Label>
 									
-									<Select value = { field.value || undefined } onValueChange = { field.onChange }>
+									<Select value = { field.value || info?.categoryId } onValueChange = { field.onChange }>
 										<SelectTrigger className = 'w-full'>
 											<SelectValue placeholder = 'Selecione a categoria do produto'/>
 										</SelectTrigger>

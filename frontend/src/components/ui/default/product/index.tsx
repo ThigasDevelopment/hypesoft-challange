@@ -1,11 +1,11 @@
 import type { ProductProps } from '@/types';
 
-import { Button } from '../../shadcn/button';
-import { Card } from '../../shadcn/card';
+import { Button, Card, Dialog, DialogTrigger } from '@/components/ui';
 
 import { Edit, Trash } from 'lucide-react';
+import { CreateProductForm } from '@/components/forms';
 
-export function Product ({ name, desc, category, price, stock }: ProductProps) {
+export function Product ({ id, name, desc, category, price, stock, categoryId }: ProductProps) {
 	return (
 		<Card className = 'w-full'>
 			<div className = 'flex flex-col md:flex-row justify-between gap-4'>
@@ -20,7 +20,25 @@ export function Product ({ name, desc, category, price, stock }: ProductProps) {
 				</div>
 
 				<div className = 'flex flex-row md:flex-col items-center justify-center gap-2'>
-					<Button className = 'hover:bg-secondary/50 focus-visible:ring-2 focus-visible:ring-secondary/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md' variant = 'outline' size = 'sm'><Edit className = 'h-4 w-4'/></Button>
+					<Dialog>
+						<DialogTrigger asChild>
+							<Button className = 'hover:bg-secondary/50 focus-visible:ring-2 focus-visible:ring-secondary/50 transition-all duration-150 active:scale-95 shadow-none hover:shadow-md' variant = 'outline' size = 'sm'>
+								<Edit className = 'h-4 w-4'/>
+							</Button>
+						</DialogTrigger>
+
+						<CreateProductForm type = 'edit' info = {
+							{
+								id: id || '',
+
+								name,
+								description: desc,
+								categoryId,
+								price,
+								stock
+							}
+						}/>
+					</Dialog>
 					<Button variant = 'destructive' size = 'sm'><Trash className = 'h-4 w-4'/></Button>
 				</div>
 			</div>

@@ -25,7 +25,7 @@ export async function deleteProduct (id: string): Promise<void> {
 	await api.delete (`/products?id=${ id }`);
 }
 
-export async function updateProduct (id: string, product: Omit<Product, 'id'>): Promise<Product> {
+export async function updateProduct (id: string, product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>): Promise<Product> {
 	const response = await api.put (`/products?id=${ id }`, product);
 	return response.data;
 }

@@ -6,4 +6,7 @@ export interface ProductProps extends ComponentProps<'div'> {
 	category: string;
 	price: number;
 	stock: number;
+
+	id?: string;
+	categoryId: string;
 }
