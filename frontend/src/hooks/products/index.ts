@@ -1,11 +1,18 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { getProducts, createProduct } from '@/services/products';
+import { getProducts, createProduct, getProductsLowStock } from '@/services/products';
 
 export function useProducts () {
 	return useQuery ({
 		queryKey: [ 'products' ],
 		queryFn: () => getProducts (),
+	});
+}
+
+export function useProductsLowStock () {
+	return useQuery ({
+		queryKey: [ 'products', 'low-stock' ],
+		queryFn: () => getProductsLowStock (),
 	});
 }
 
