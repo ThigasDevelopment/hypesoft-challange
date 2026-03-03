@@ -38,37 +38,37 @@ export function Products () {
 		() => {
 			const [ categories, categoriesById, products ] = [ categoriesQuery.data, categoriesQuery.byId, productQuery.data ? [ ...productQuery.data ] : [ ] ];
 
-			let allProducts = products.filter (product => product.name.toLowerCase ().includes (stateProps.search.toLowerCase ()))
+			let filterProducts = products.filter (product => product.name.toLowerCase ().includes (stateProps.search.toLowerCase ()))
 				.filter (product => stateProps.categorie === 'all' || categoriesById[product.categoryId] === stateProps.categorie);
 
 			switch (stateProps.filter) {
 				case 'a-z':
-					allProducts.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
+					filterProducts.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
 				break;
 
 				case 'z-a':
-					allProducts.sort ((a, b) => b.name.toLowerCase ().localeCompare (a.name.toLowerCase ()));
+					filterProducts.sort ((a, b) => b.name.toLowerCase ().localeCompare (a.name.toLowerCase ()));
 				break;
 
 				case 's:0-1':
-					allProducts.sort ((a, b) => a.stock - b.stock);
+					filterProducts.sort ((a, b) => a.stock - b.stock);
 				break;
 
 				case 's:1-0':
-					allProducts.sort ((a, b) => b.stock - a.stock);
+					filterProducts.sort ((a, b) => b.stock - a.stock);
 				break;
 
 				case 'p:0-1':
-					allProducts.sort ((a, b) => a.price - b.price);
+					filterProducts.sort ((a, b) => a.price - b.price);
 				break;
 
 				case 'p:1-0':
-					allProducts.sort ((a, b) => b.price - a.price);
+					filterProducts.sort ((a, b) => b.price - a.price);
 				break;
 			}
 
-			return [ categories, allProducts, categoriesById ];
-		}, [ stateProps.filter, stateProps.search ]
+			return [ categories, filterProducts, categoriesById ];
+		}, [ productQuery.data, categoriesQuery.data, stateProps.filter, stateProps.search, stateProps.categorie ]
 	);
 
 	const auth = useAuth ();
@@ -87,7 +87,7 @@ export function Products () {
 						<Button
 							variant = 'default'
 
-							disabled = { !isAdmin || allCategories.length < 1 } 
+							disabled = { !isAdmin || allCategories.length < 1 }
 						>
 							<SquarePlus className = 'mr-2 h-4 w-4'/>
 							Criar Produto
