@@ -8,7 +8,7 @@ import { ChartDefault } from '@/components/charts';
 
 import { ShoppingBasket, DollarSign, Layers, TriangleAlert } from 'lucide-react';
 
-export function Dashboard() {
+export function Dashboard () {
 	const productsQuery = useProducts ();
 	const productsByCategory = useGetProductsByCategory ();
 	const lowStockProductsQuery = useProductsLowStock ();
