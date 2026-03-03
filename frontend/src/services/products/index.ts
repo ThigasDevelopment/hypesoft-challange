@@ -1,7 +1,7 @@
 import { api } from '@/services/api';
-import type { Product, PaginatedResult } from '@/types';
+import type { Product } from '@/types';
 
-export async function getProducts (): Promise<PaginatedResult<Product>> {
+export async function getProducts (): Promise<Product[]> {
 	const response = await api.get ('/products');
 	return response.data;
 }
