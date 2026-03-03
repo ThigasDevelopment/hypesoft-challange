@@ -159,7 +159,7 @@ export function Products () {
 					isLoading ? (
 						<Loading className = 'h-24'/>
 					) : error ? (
-						<Error className = 'h-58'/>
+						<Error className = 'h-56'/>
 					) : (
 						<div className = 'grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-2'>
 							{
