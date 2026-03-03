@@ -12,12 +12,3 @@ export interface Product {
 	createdAt: string;
 	updatedAt: string;
 };
-
-export interface PaginatedResult<T> {
-	items: T[ ];
-
-	totalCount: number;
-
-	pageNumber: number;
-	pageSize: number;
-};
