@@ -18,5 +18,5 @@ export async function createCategory (category: Omit<Category, 'id' | 'createdAt
 }
 
 export async function deleteCategory (id: string): Promise<void> {
-	await api.delete (`/categories/${ id }`);
+	await api.delete (`/categories?id=${ id }`);
 }

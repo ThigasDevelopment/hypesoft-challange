@@ -22,10 +22,10 @@ export async function createProduct (product: Omit<Product, 'createdAt' | 'updat
 }
 
 export async function deleteProduct (id: string): Promise<void> {
-	await api.delete (`/products/${ id }`);
+	await api.delete (`/products?id=${ id }`);
 }
 
 export async function updateProduct (id: string, product: Omit<Product, 'id'>): Promise<Product> {
-	const response = await api.put (`/products/${ id }`, product);
+	const response = await api.put (`/products?id=${ id }`, product);
 	return response.data;
 }

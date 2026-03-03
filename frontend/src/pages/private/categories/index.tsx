@@ -128,7 +128,7 @@ export function Categories () {
 								allCategories.length > 0 ? (
 									allCategories.map (
 										category => (
-											<Category key = { category.id } name = { category.name } date = { category.createdAt }/>
+											<Category key = { category.id } id = { category.id } name = { category.name } date = { category.createdAt }/>
 										)
 									)
 								) : (
