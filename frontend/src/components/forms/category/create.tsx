@@ -42,7 +42,7 @@ export function CreateCategoryForm () {
 			reset ();
 			closeRef.current?.click ();
 		} catch (err) {
-			console.error (err);
+			toast.error ('Ocorreu um erro ao criar a categoria. Por favor, tente novamente.');
 		}
 	}
 
