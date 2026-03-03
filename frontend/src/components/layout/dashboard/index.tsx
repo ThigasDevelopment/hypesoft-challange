@@ -7,6 +7,7 @@ import { Button, Dropdown, DropdownContent, DropdownGroup, DropdownItem, Dropdow
 import { useTheme } from '@/hooks/themes';
 
 import { LayoutDashboardIcon, LogOut, Menu, MoonIcon, SunIcon, ShoppingBasket, Layers } from 'lucide-react';
+import { Toaster } from '@/components/ui';
 
 export function DashboardLayout () {
 	const [ isMenuOpen, setMenuOpen ] = useState (false);
@@ -19,6 +20,8 @@ export function DashboardLayout () {
 
 	return (
 		<div className = 'flex min-h-screen bg-background text-foreground'>
+			<Toaster/>
+
 			{
 				isMenuOpen && <div className = 'fixed inset-0 bg-black/50 z-30 sm:hidden' onClick = { () => setMenuOpen (false) } />
 			}

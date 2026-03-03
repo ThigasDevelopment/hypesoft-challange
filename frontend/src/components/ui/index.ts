@@ -6,6 +6,7 @@ export * from './shadcn/field';
 export * from './shadcn/input';
 export * from './shadcn/label';
 export * from './shadcn/scroll';
+export * from './shadcn/sonner';
 
 export * from './default/category';
 export * from './default/error';
