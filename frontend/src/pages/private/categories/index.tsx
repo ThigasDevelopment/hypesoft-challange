@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 import { useCategories } from '@/hooks/categories';
 
@@ -7,36 +7,54 @@ import { Button, Card, Category, Dialog, DialogTrigger, Dropdown, DropdownConten
 import { ArrowDown, ArrowUp, Search, SquarePlus } from 'lucide-react';
 import { CreateCategoryForm } from '@/components/forms';
 
-export function Categories () {
-	const [ filter, setFilter ] = useState ('none');
-	const [ search, setSearch ] = useState ('');
+interface StateProps {
+	filter: 'none' | 'a-z' | 'z-a' | 'recent-asc' | 'recent-desc';
+	search: string;
+};
 
+export function Categories () {
 	const { data, isLoading, error } = useCategories ();
 
-	let categories = Array.isArray (data) ? data : (data?.items || [ ]);
-	categories = categories.filter ((category: any) => category.name.toLowerCase ().includes (search.toLowerCase ()));
-	categories.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
+	const [ stateProps, setStateProps ] = useState<StateProps> ({
+		filter: 'none',
+		search: '',
+	});
 
-	if (categories.length === 0 && filter !== 'none') {
-		setFilter ('none');
+	function handleSwitchFilter (filter: StateProps['filter']) {
+		if (stateProps.filter === filter)
+			return setStateProps ({ ...stateProps, filter: 'none' });
+
+		setStateProps ({ ...stateProps, filter });
 	}
 
-	if (filter !== 'none') {
-		switch (filter) {
-			case 'a-z':
-				categories.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
+	const allCategories = useMemo (
+		() => {
+			const list = data ? [ ...data ] : [ ];
+
+			let result = list.filter (category => category.name.toLowerCase ().includes (stateProps.search.toLowerCase ()))
+				.sort ((a, b) => a.createdAt.localeCompare (b.createdAt));
+
+			switch (stateProps.filter) {
+				case 'a-z':
+					result.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
 				break;
-			case 'z-a':
-				categories.sort ((a, b) => b.name.toLowerCase ().localeCompare (a.name.toLowerCase ()));
+
+				case 'z-a':
+					result.sort ((a, b) => b.name.toLowerCase ().localeCompare (a.name.toLowerCase ()));
 				break;
-			case 'recent-asc':
-				categories.sort ((a, b) => a.createdAt.toLowerCase ().localeCompare (b.createdAt.toLowerCase ()));
+
+				case 'recent-asc':
+					result.sort ((a, b) => a.createdAt.localeCompare (b.createdAt));
 				break;
-			case 'recent-desc':
-				categories.sort ((a, b) => b.createdAt.toLowerCase ().localeCompare (a.createdAt.toLowerCase ()));
+
+				case 'recent-desc':
+					result.sort ((a, b) => b.createdAt.localeCompare (a.createdAt));
 				break;
-		}
-	}
+			}
+
+			return result;
+		}, [ data, stateProps.filter, stateProps.search ]
+	);
 
 	return (
 		<div className = 'space-y-6'>
@@ -66,8 +84,8 @@ export function Categories () {
 
 						<Input
 							placeholder = 'Buscar categorias...'
-							value = { search }
-							onChange = { (e) => setSearch (e.target.value) }
+							value = { stateProps.search }
+							onChange = { (e) => setStateProps ({ ...stateProps, search: e.target.value }) }
 							className = 'pl-8 pr-2 py-2 border rounded w-full sm:w-48 h-12 focus:outline-none focus:ring'
 						/>
 					</div>
@@ -83,11 +101,11 @@ export function Categories () {
 							<DropdownGroup>
 								<DropdownLabel>Ordernar por</DropdownLabel>
 								<DropdownSeparator/>
-								<DropdownItem className = { filter === 'a-z' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'a-z' ? 'none' : 'a-z') }>Nome (A-Z)</DropdownItem>
-								<DropdownItem className = { filter === 'z-a' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'z-a' ? 'none' : 'z-a') }>Nome (Z-A)</DropdownItem>
+								<DropdownItem className = { stateProps.filter === 'a-z' ? 'bg-muted' : '' } onClick = { () => handleSwitchFilter ('a-z') }>Nome (A-Z)</DropdownItem>
+								<DropdownItem className = { stateProps.filter === 'z-a' ? 'bg-muted' : '' } onClick = { () => handleSwitchFilter ('z-a') }>Nome (Z-A)</DropdownItem>
 								<DropdownSeparator/>
-								<DropdownItem className = { filter === 'recent-asc' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'recent-asc' ? 'none' : 'recent-asc') }>Recentes <ArrowDown className = 'ml-2 h-4 w-4'/> <ArrowUp className = 'ml-2 h-4 w-4'/></DropdownItem>
-								<DropdownItem className = { filter === 'recent-desc' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'recent-desc' ? 'none' : 'recent-desc') }>Recentes <ArrowUp className = 'ml-2 h-4 w-4'/> <ArrowDown className = 'ml-2 h-4 w-4'/></DropdownItem>
+								<DropdownItem className = { stateProps.filter === 'recent-asc' ? 'bg-muted' : '' } onClick = { () => handleSwitchFilter ('recent-asc') }>Recentes <ArrowDown className = 'ml-2 h-4 w-4'/> <ArrowUp className = 'ml-2 h-4 w-4'/></DropdownItem>
+								<DropdownItem className = { stateProps.filter === 'recent-desc' ? 'bg-muted' : '' } onClick = { () => handleSwitchFilter ('recent-desc') }>Recentes <ArrowUp className = 'ml-2 h-4 w-4'/> <ArrowDown className = 'ml-2 h-4 w-4'/></DropdownItem>
 							</DropdownGroup>
 						</DropdownContent>
 					</Dropdown>
@@ -101,8 +119,8 @@ export function Categories () {
 					) : (
 						<div className = 'flex flex-col gap-4 sm:items-center sm:justify-center mb-2'>
 							{
-								categories.length > 0 ? (
-									categories.map (
+								allCategories.length > 0 ? (
+									allCategories.map (
 										category => (
 											<Category key = { category.id } name = { category.name } date = { category.createdAt }/>
 										)
