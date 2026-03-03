@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 import { useProducts } from '@/hooks/products';
 import { useCategoriesName } from '@/hooks/categories';
@@ -16,7 +16,8 @@ interface StateProps {
 };
 
 export function Products () {
-	const { data: categories, byId: categoriesById } = useCategoriesName ();
+	const productQuery = useProducts ();
+	const categoriesQuery = useCategoriesName ();
 
 	const [ stateProps, setStateProps ] = useState<StateProps> ({
 		filter: 'none',
@@ -25,49 +26,49 @@ export function Products () {
 		categorie: 'all',
 	});
 
-	const { data, isLoading, error } = useProducts ();
-
-	let allProducts = data ? [ ...data ] : [ ];
-	allProducts = allProducts.filter (
-		product => product.name.toLowerCase ().includes (stateProps.search.toLowerCase ())
-	);
-
 	function handleSwitchFilter (filter: StateProps['filter']) {
 		if (stateProps.filter === filter)
 			return setStateProps ({ ...stateProps, filter: 'none' });
 
-		switch (filter) {
-			case 'a-z':
-				allProducts.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
-			break;
-
-			case 'z-a':
-				allProducts.sort ((a, b) => b.name.toLowerCase ().localeCompare (a.name.toLowerCase ()));
-			break;
-
-			case 's:0-1':
-				allProducts.sort ((a, b) => a.stock - b.stock);
-			break;
-
-			case 's:1-0':
-				allProducts.sort ((a, b) => b.stock - a.stock);
-			break;
-
-			case 'p:0-1':
-				allProducts.sort ((a, b) => a.price - b.price);
-			break;
-
-			case 'p:1-0':
-				allProducts.sort ((a, b) => b.price - a.price);
-			break;
-		}
-			
 		setStateProps ({ ...stateProps, filter });
 	}
 
-	allProducts = allProducts.filter (
-		product => stateProps.categorie === 'all' || stateProps.categorie === categoriesById[product.categoryId]
-	);
+	const [ allCategories, allProducts, categoriesById ] = useMemo (
+		() => {
+			const [ categories, categoriesById, products ] = [ categoriesQuery.data, categoriesQuery.byId, productQuery.data ? [ ...productQuery.data ] : [ ] ];
+
+			let allProducts = products.filter (product => product.name.toLowerCase ().includes (stateProps.search.toLowerCase ()))
+				.filter (product => stateProps.categorie === 'all' || categoriesById[product.categoryId] === stateProps.categorie);
+
+			switch (stateProps.filter) {
+				case 'a-z':
+					allProducts.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
+				break;
+
+				case 'z-a':
+					allProducts.sort ((a, b) => b.name.toLowerCase ().localeCompare (a.name.toLowerCase ()));
+				break;
+
+				case 's:0-1':
+					allProducts.sort ((a, b) => a.stock - b.stock);
+				break;
+
+				case 's:1-0':
+					allProducts.sort ((a, b) => b.stock - a.stock);
+				break;
+
+				case 'p:0-1':
+					allProducts.sort ((a, b) => a.price - b.price);
+				break;
+
+				case 'p:1-0':
+					allProducts.sort ((a, b) => b.price - a.price);
+				break;
+			}
+
+			return [ categories, allProducts, categoriesById ];
+		}, [ stateProps.filter, stateProps.search ]
+	)
 
 	return (
 		<div className = 'space-y-6'>
@@ -105,7 +106,7 @@ export function Products () {
 
 					<div className = 'flex items-center sm:justify-between gap-2'>
 						{
-							categories && categories.length > 0 && (
+							allCategories && allCategories.length > 0 && (
 								<Dropdown>
 									<DropdownTrigger asChild>
 										<Button variant = 'outline' className = 'w-full sm:w-auto'>
@@ -116,7 +117,7 @@ export function Products () {
 									<DropdownContent align = 'end'>
 										<DropdownGroup>
 											{
-												categories.map (
+												allCategories.map (
 													(categorie: string) => (
 														<DropdownItem key = { categorie } className = { stateProps.categorie === categorie ? 'bg-muted' : '' } onClick = { () => setStateProps ({ ...stateProps, categorie: categorie === stateProps.categorie ? 'all' : categorie }) }>
 															{ categorie }
@@ -156,9 +157,9 @@ export function Products () {
 				</div>
 
 				{
-					isLoading ? (
+					productQuery.isLoading ? (
 						<Loading className = 'h-24'/>
-					) : error ? (
+					) : productQuery.error ? (
 						<Error className = 'h-56'/>
 					) : (
 						<div className = 'grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-2'>
