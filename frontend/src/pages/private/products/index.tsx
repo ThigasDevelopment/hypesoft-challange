@@ -1,54 +1,73 @@
 import { useState } from 'react';
 
 import { useProducts } from '@/hooks/products';
-import { useCategories } from '@/hooks/categories';
+import { useCategoriesName } from '@/hooks/categories';
 
 import { Button, Card, Dialog, DialogTrigger, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger, Error, Input, Loading, Product } from '@components/ui';
 import { CreateProductForm } from '@/components/forms';
 
 import { ArrowDown, ArrowUp, Search, SquarePlus } from 'lucide-react';
 
+interface StateProps {
+	filter: 'none' | 'a-z' | 'z-a' | 's:0-1' | 's:1-0' | 'p:0-1' | 'p:1-0';
+	search: string;
+
+	categorie: 'all' | string;
+};
+
 export function Products () {
-	const [ categorie, setCategorie ] = useState ('all');
-	const [ filter, setFilter ] = useState ('none');
-	const [ search, setSearch ] = useState ('');
+	const { data: categories, byId: categoriesById } = useCategoriesName ();
+
+	const [ stateProps, setStateProps ] = useState<StateProps> ({
+		filter: 'none',
+		search: '',
+
+		categorie: 'all',
+	});
 
 	const { data, isLoading, error } = useProducts ();
 
-	const { data: categoriesData } = useCategories ();
-	const categories = Array.isArray (categoriesData) ? categoriesData : (categoriesData?.items || [ ]);
+	let allProducts = data ? [ ...data ] : [ ];
+	allProducts = allProducts.filter (
+		product => product.name.toLowerCase ().includes (stateProps.search.toLowerCase ())
+	);
 
-	const categoryMap = categories.reduce ((acc, cat) => {
-		acc[cat.id] = cat.name;
-		return acc;
-	}, { } as Record<string, string>);
+	function handleSwitchFilter (filter: StateProps['filter']) {
+		if (stateProps.filter === filter)
+			return setStateProps ({ ...stateProps, filter: 'none' });
 
-	let products = Array.isArray (data) ? data : (data?.items || [ ]);
-	products = products.filter ((product: any) => product.name.toLowerCase ().includes (search.toLowerCase ())).
-		filter ((product: any) => categorie === 'all' || product.categoryId === categorie);
-
-	if (filter !== 'none') {
 		switch (filter) {
 			case 'a-z':
-				products.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
-				break;
+				allProducts.sort ((a, b) => a.name.toLowerCase ().localeCompare (b.name.toLowerCase ()));
+			break;
+
 			case 'z-a':
-				products.sort ((a, b) => b.name.toLowerCase ().localeCompare (a.name.toLowerCase ()));
-				break;
+				allProducts.sort ((a, b) => b.name.toLowerCase ().localeCompare (a.name.toLowerCase ()));
+			break;
+
 			case 's:0-1':
-				products.sort ((a, b) => a.stock - b.stock);
-				break;
+				allProducts.sort ((a, b) => a.stock - b.stock);
+			break;
+
 			case 's:1-0':
-				products.sort ((a, b) => b.stock - a.stock);
-				break;
+				allProducts.sort ((a, b) => b.stock - a.stock);
+			break;
+
 			case 'p:0-1':
-				products.sort ((a, b) => a.price - b.price);
-				break;
+				allProducts.sort ((a, b) => a.price - b.price);
+			break;
+
 			case 'p:1-0':
-				products.sort ((a, b) => b.price - a.price);
-				break;
+				allProducts.sort ((a, b) => b.price - a.price);
+			break;
 		}
+			
+		setStateProps ({ ...stateProps, filter });
 	}
+
+	allProducts = allProducts.filter (
+		product => stateProps.categorie === 'all' || stateProps.categorie === categoriesById[product.categoryId]
+	);
 
 	return (
 		<div className = 'space-y-6'>
@@ -78,34 +97,38 @@ export function Products () {
 
 						<Input
 							placeholder = 'Buscar produtos...'
-							value = { search }
-							onChange = { (e) => setSearch (e.target.value) }
+							value = { stateProps.search }
+							onChange = { (e) => setStateProps ({ ...stateProps, search: e.target.value }) }
 							className = 'pl-8 pr-2 py-2 border rounded w-full sm:w-48 h-12 focus:outline-none focus:ring'
 						/>
 					</div>
 
 					<div className = 'flex items-center sm:justify-between gap-2'>
-						<Dropdown>
-							<DropdownTrigger asChild>
-								<Button variant = 'outline' className = 'w-full sm:w-auto'>
-									Categorias
-								</Button>
-							</DropdownTrigger>
+						{
+							categories && categories.length > 0 && (
+								<Dropdown>
+									<DropdownTrigger asChild>
+										<Button variant = 'outline' className = 'w-full sm:w-auto'>
+											Categorias
+										</Button>
+									</DropdownTrigger>
 
-							<DropdownContent align = 'end'>
-								<DropdownGroup>
-									{
-										categories.map (
-											(category: any) => (
-												<DropdownItem className = { categorie === category.id ? 'bg-muted' : '' } onClick = { () => setCategorie (categorie === category.id ? 'all' : category.id) } key = { category.id }>
-													{ category.name }
-												</DropdownItem>
-											)
-										)
-									}
-								</DropdownGroup>
-							</DropdownContent>
-						</Dropdown>
+									<DropdownContent align = 'end'>
+										<DropdownGroup>
+											{
+												categories.map (
+													(categorie: string) => (
+														<DropdownItem key = { categorie } className = { stateProps.categorie === categorie ? 'bg-muted' : '' } onClick = { () => setStateProps ({ ...stateProps, categorie: categorie === stateProps.categorie ? 'all' : categorie }) }>
+															{ categorie }
+														</DropdownItem>
+													)
+												)
+											}
+										</DropdownGroup>
+									</DropdownContent>
+								</Dropdown>
+							)
+						}
 
 						<Dropdown>
 							<DropdownTrigger asChild>
@@ -118,14 +141,14 @@ export function Products () {
 								<DropdownGroup>
 									<DropdownLabel>Ordernar por</DropdownLabel>
 									<DropdownSeparator/>
-									<DropdownItem className = { filter === 'a-z' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'a-z' ? 'none' : 'a-z') }>Nome (A-Z)</DropdownItem>
-									<DropdownItem className = { filter === 'z-a' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'z-a' ? 'none' : 'z-a') }>Nome (Z-A)</DropdownItem>
+									<DropdownItem className = { stateProps.filter === 'a-z' ? 'bg-muted' : '' } onClick = { () => handleSwitchFilter ('a-z') }>Nome (A-Z)</DropdownItem>
+									<DropdownItem className = { stateProps.filter === 'z-a' ? 'bg-muted' : '' } onClick = { () => handleSwitchFilter ('z-a') }>Nome (Z-A)</DropdownItem>
 									<DropdownSeparator/>
-									<DropdownItem className = { filter === 's:0-1' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 's:0-1' ? 'none' : 's:0-1') }>Estoque <ArrowDown className = 'ml-2 h-4 w-4'/> <ArrowUp className = 'ml-2 h-4 w-4'/></DropdownItem>
-									<DropdownItem className = { filter === 's:1-0' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 's:1-0' ? 'none' : 's:1-0') }>Estoque <ArrowUp className = 'ml-2 h-4 w-4'/> <ArrowDown className = 'ml-2 h-4 w-4'/></DropdownItem>
+									<DropdownItem className = { stateProps.filter === 's:0-1' ? 'bg-muted' : '' } onClick = { () => handleSwitchFilter ('s:0-1') }>Estoque <ArrowDown className = 'ml-2 h-4 w-4'/> <ArrowUp className = 'ml-2 h-4 w-4'/></DropdownItem>
+									<DropdownItem className = { stateProps.filter === 's:1-0' ? 'bg-muted' : '' } onClick = { () => handleSwitchFilter ('s:1-0') }>Estoque <ArrowUp className = 'ml-2 h-4 w-4'/> <ArrowDown className = 'ml-2 h-4 w-4'/></DropdownItem>
 									<DropdownSeparator/>
-									<DropdownItem className = { filter === 'p:0-1' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'p:0-1' ? 'none' : 'p:0-1') }>Preço <ArrowDown className = 'ml-2 h-4 w-4'/> <ArrowUp className = 'ml-2 h-4 w-4'/></DropdownItem>
-									<DropdownItem className = { filter === 'p:1-0' ? 'bg-muted' : '' } onClick = { () => setFilter (filter === 'p:1-0' ? 'none' : 'p:1-0') }>Preço <ArrowUp className = 'ml-2 h-4 w-4'/> <ArrowDown className = 'ml-2 h-4 w-4'/></DropdownItem>
+									<DropdownItem className = { stateProps.filter === 'p:0-1' ? 'bg-muted' : '' } onClick = { () => handleSwitchFilter ('p:0-1') }>Preço <ArrowDown className = 'ml-2 h-4 w-4'/> <ArrowUp className = 'ml-2 h-4 w-4'/></DropdownItem>
+									<DropdownItem className = { stateProps.filter === 'p:1-0' ? 'bg-muted' : '' } onClick = { () => handleSwitchFilter ('p:1-0') }>Preço <ArrowUp className = 'ml-2 h-4 w-4'/> <ArrowDown className = 'ml-2 h-4 w-4'/></DropdownItem>
 								</DropdownGroup>
 							</DropdownContent>
 						</Dropdown>
@@ -136,20 +159,23 @@ export function Products () {
 					isLoading ? (
 						<Loading className = 'h-24'/>
 					) : error ? (
-						<Error className = 'h-56'/>
+						<Error className = 'h-58'/>
 					) : (
-						<div className = 'grid gap-4 grid-cols-1 md:grid-cols-2'>
+						<div className = 'grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-2'>
 							{
-								products.length > 0 ? (
-									products.map (
-										(product: any) => (
+								allProducts.length > 0 ? (
+									allProducts.map (
+										(product) => (
 											<Product
 												key = { product.id }
+
 												name = { product.name }
 												desc = { product.description }
-												category = { categoryMap[product.categoryId] || 'Sem Categoria' }
+
 												price = { product.price }
 												stock = { product.stock }
+
+												category = { categoriesById[product.categoryId] || 'Sem categoria' }
 											/>
 										)
 									)
