@@ -32,6 +32,13 @@ export function CreateProductForm ({ type = 'create', info }: { type?: 'create' 
 			category: info?.categoryId || '',
 			price: info?.price || 0,
 			stock: info?.stock || 1,
+		},
+		values: {
+			name: info?.name || '',
+			description: info?.description || '',
+			category: info?.categoryId || '',
+			price: info?.price || 0,
+			stock: info?.stock || 1,
 		}
 	});
 
@@ -232,7 +239,9 @@ export function CreateProductForm ({ type = 'create', info }: { type?: 'create' 
 						render = {
 							({ field, fieldState }) => (
 								<Field data-invalid = { fieldState.invalid } className = 'flex flex-col'>
-									<Label htmlFor = 'form-product-stock' className = 'pl-1 text-sm font-medium'>Estoque inicial</Label>
+									<Label htmlFor = 'form-product-stock' className = 'pl-1 text-sm font-medium'>
+										{ type === 'create' ? 'Estoque inicial' : 'Estoque' }
+									</Label>
 									<Input { ...field } id = 'form-product-stock' aria-invalid = { fieldState.invalid } placeholder = 'Estoque do produto' autoComplete = 'off'/>
 
 									{
