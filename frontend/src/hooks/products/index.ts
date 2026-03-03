@@ -40,8 +40,8 @@ export function useCreateProduct () {
 
 	return useMutation ({
 		mutationFn: createProduct,
-		onSuccess: () => {
-			queryClient.invalidateQueries ({ queryKey: [ 'products' ] });
+		onSuccess: async () => {
+			await queryClient.invalidateQueries ({ queryKey: [ 'products' ] });
 		}
 	});
 }
@@ -51,8 +51,8 @@ export function useDeleteProduct () {
 
 	return useMutation ({
 		mutationFn: (id: string) => deleteProduct (id),
-		onSuccess: () => {
-			queryClient.invalidateQueries ({ queryKey: [ 'products' ] });
+		onSuccess: async () => {
+			await queryClient.invalidateQueries ({ queryKey: [ 'products' ] });
 		}
 	});
 }
@@ -62,8 +62,8 @@ export function useUpdateProduct () {
 
 	return useMutation ({
 		mutationFn: ({ id, data }: { id: string, data: Omit<Product, 'id' | 'createdAt' | 'updatedAt'> }) => updateProduct (id, data),
-		onSuccess: () => {
-			queryClient.invalidateQueries ({ queryKey: [ 'products' ] });
+		onSuccess: async () => {
+			await queryClient.invalidateQueries ({ queryKey: [ 'products' ] });
 		}
 	});
 }

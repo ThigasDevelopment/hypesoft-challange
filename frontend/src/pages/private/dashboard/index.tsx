@@ -103,7 +103,7 @@ export function Dashboard () {
 								) : (
 									lowStockList.map (
 										(item, index) => (
-											<div key = { index } className = 'flex items-center justify-between border-b border-border pb-4 last:border-0 last:pb-0'>
+											<div key = { index } className = 'flex items-center justify-between border-b border-border mt-2 pb-4 last:border-0 last:pb-0'>
 												<div className = 'justify-end gap-2'>
                                                     <p className = 'font-medium text-sm'>
                                                         { item.name }

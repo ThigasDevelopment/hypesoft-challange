@@ -27,8 +27,8 @@ export function useCreateCategory () {
 
 	return useMutation ({
 		mutationFn: createCategory,
-		onSuccess: () => {
-			queryClient.invalidateQueries ({ queryKey: [ 'categories' ] });
+		onSuccess: async () => {
+			await queryClient.invalidateQueries ({ queryKey: [ 'categories' ] });
 		}
 	});
 }
@@ -37,9 +37,9 @@ export function useDeleteCategory () {
 	const queryClient = useQueryClient ();
 
 	return useMutation ({
-		mutationFn: deleteCategory,
-		onSuccess: () => {
-			queryClient.invalidateQueries ({ queryKey: [ 'categories' ] });
+		mutationFn: (id: string) => deleteCategory (id),
+		onSuccess: async () => {
+			await queryClient.invalidateQueries ({ queryKey: [ 'categories' ] });
 		}
 	});
 }
