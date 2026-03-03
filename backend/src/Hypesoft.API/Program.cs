@@ -58,15 +58,20 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-    var keycloak = builder.Configuration.GetSection("Keycloak");
-    options.Authority = Environment.GetEnvironmentVariable("KEYCLOAK_URL") + "/realms/" + Environment.GetEnvironmentVariable("KEYCLOAK_REALM");
+    var keycloakUrl = Environment.GetEnvironmentVariable("KEYCLOAK_URL") ?? "http://localhost:8080";
+    var keycloakInternalUrl = Environment.GetEnvironmentVariable("KEYCLOAK_INTERNAL_URL") ?? "http://hypesoft_keycloak:8080";
+    var realm = Environment.GetEnvironmentVariable("KEYCLOAK_REALM") ?? "hypesoft-realm";
+
+    options.Authority = $"{keycloakUrl}/realms/{realm}";
+    options.MetadataAddress = $"{keycloakInternalUrl}/realms/{realm}/.well-known/openid-configuration";
     options.Audience = Environment.GetEnvironmentVariable("KEYCLOAK_CLIENT_ID");
-    options.RequireHttpsMetadata = bool.Parse(keycloak["RequireHttpsMetadata"] ?? "true");
+    options.RequireHttpsMetadata = false;
 
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateAudience = false,
         ValidateIssuer = true,
+        ValidIssuers = [options.Authority, $"{keycloakInternalUrl}/realms/{realm}"],
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,  
     };
