@@ -1,23 +1,25 @@
-import { Button, Card } from '@/components/ui';
+import { useMemo } from 'react';
+
+import { useProducts, useProductsLowStock } from '@/hooks/products';
+
+import { Card } from '@/components/ui';
 import { ChartDefault } from '@/components/charts';
 
-import { RefreshCcwIcon, ShoppingBasket, DollarSign, Layers, TriangleAlert } from 'lucide-react';
+import { ShoppingBasket, DollarSign, Layers, TriangleAlert } from 'lucide-react';
 
 export function Dashboard() {
-	const dummyLowStockData = [
-		{ name: 'Produto A', category: 'Eletrônicos', stock: 5 },
-		{ name: 'Produto B', category: 'Roupas', stock: 3 },
-		{ name: 'Produto C', category: 'Alimentos', stock: 2 },
+	const productsQuery = useProducts ();
+	const lowStockProductsQuery = useProductsLowStock ();
+	
+	const [ totalProducts, totalStockPrice, lowStockList ] = useMemo (
+		() => {
+			const totalProducts = productsQuery.data ? productsQuery.data.length : 0;
+			const totalStockPrice = productsQuery.data ? productsQuery.data.reduce ((acc, product) => acc + (product.price * product.stock), 0) : 0;
+			const lowStockList = lowStockProductsQuery.data || [];
 
-		{ name: 'Produto A', category: 'Eletrônicos', stock: 5 },
-	];
-
-	const dummyCategoryData = [
-		{ name: 'Eletrônicos', amount: 400 },
-		{ name: 'Roupas', amount: 300 },
-		{ name: 'Alimentos', amount: 200 },
-		{ name: 'Móveis', amount: 100 },
-	];
+			return [ totalProducts, totalStockPrice, lowStockList ];
+		}, [ productsQuery.data, lowStockProductsQuery.data ]
+	)
 
   	return (
 		<div className = 'space-y-6'>
@@ -25,13 +27,6 @@ export function Dashboard() {
 				<h2 className = 'text-2xl font-bold'>
 					Visão Geral
 				</h2>
-
-				<Button
-					variant = 'default'
-				>
-					<RefreshCcwIcon className = 'mr-2 h-4 w-4'/>
-					Atualizar Dados
-				</Button>
 			</div>
 
 			<div className = 'flex flex-col gap-4'>
@@ -47,7 +42,7 @@ export function Dashboard() {
 
 						<div className = 'px-2 pt-4'>
 							<p className = 'text-2xl font-bold'>
-								1.234.567
+								{ totalProducts.toLocaleString () }
 							</p>
 
 							<p className = 'text-sm text-muted-foreground'>
@@ -67,7 +62,7 @@ export function Dashboard() {
 
 						<div className = 'px-2 pt-4'>
 							<p className = 'text-2xl font-bold'>
-								R$ 1.234.567,00
+								R$ { totalStockPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) }
 							</p>
 
 							<p className = 'text-sm text-muted-foreground'>
@@ -89,14 +84,14 @@ export function Dashboard() {
 
 						<div className = 'px-2 pt-4 space-y-4'>
 							{
-								dummyLowStockData.length === 0 ? (
+								lowStockList.length === 0 ? (
 									<div className = 'flex items-center justify-center gap-2 py-10'>
 										<p className = 'flex justify-center items-center h-32 text-lg text-muted-foreground'>
 											Todos os produtos estão com estoque adequado.
 										</p>
 									</div>
 								) : (
-									dummyLowStockData.map (
+									lowStockList.map (
 										(item, index) => (
 											<div key = { index } className = 'flex items-center justify-between border-b border-border pb-4 last:border-0 last:pb-0'>
 												<div>
@@ -105,7 +100,7 @@ export function Dashboard() {
 													</p>
 
 													<p className = 'text-xs text-muted-foreground'>
-														{ item.category }
+														{ item.categoryId }
 													</p>
 												</div>
 
@@ -130,7 +125,7 @@ export function Dashboard() {
 						</div>
 
 						<ChartDefault
-							list = { dummyCategoryData }
+							list = { [ 1, 2, 3, 4, 5, 6, 7 ] }
 							type = 'line'
 
 							fields = {
