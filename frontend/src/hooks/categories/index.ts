@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getCategories } from '@/services/categories';
+import { getCategories, createCategory } from '@/services/categories';
 
 export function useCategories () {
 	return useQuery ({
@@ -20,4 +20,15 @@ export function useCategoriesName () {
 	);
 
 	return { data: data.map (category => category.name), byId };
+}
+
+export function useCreateCategory () {
+	const queryClient = useQueryClient ();
+
+	return useMutation ({
+		mutationFn: createCategory,
+		onSuccess: () => {
+			queryClient.invalidateQueries ({ queryKey: [ 'categories' ] });
+		}
+	});
 }

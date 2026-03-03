@@ -12,7 +12,7 @@ export async function getCategoryById (id: string): Promise<Category> {
 	return response.data;
 }
 
-export async function createCategory (category: Omit<Category, 'id'>): Promise<Category> {
+export async function createCategory (category: Omit<Category, 'id' | 'createdAt'>): Promise<Category> {
 	const response = await api.post ('/categories', category);
 	return response.data;
 }

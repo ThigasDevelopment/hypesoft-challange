@@ -1,8 +1,14 @@
+import { useRef } from 'react';
+
+import { useAuth } from 'react-oidc-context';
 import { Controller, useForm } from 'react-hook-form';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { z } from 'zod';
+import { toast } from 'sonner';
 
+import { useCreateCategory } from '@/hooks/categories';
 import { Button, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Field, FieldError, FieldGroup, Input, Label } from '@components/ui';
 
 const createCategorySchema = z.object ({
@@ -12,6 +18,9 @@ const createCategorySchema = z.object ({
 type CreateCategoryFormData = z.infer<typeof createCategorySchema>;
 
 export function CreateCategoryForm () {
+	const closeRef = useRef <HTMLButtonElement> (null);
+	const auth = useAuth ();
+
 	const { control, reset, handleSubmit } = useForm<CreateCategoryFormData> ({
 		resolver: zodResolver (createCategorySchema) as any,
 
@@ -20,8 +29,21 @@ export function CreateCategoryForm () {
 		}
 	});
 
-	function handleCreateCategory (data: CreateCategoryFormData) {
-		console.log (data);
+	const createdMutation = useCreateCategory ();
+
+	async function handleCreateCategory (data: CreateCategoryFormData) {
+		const { name } = data;
+		const userId = auth.user?.profile?.sub;
+		
+		try {
+			await createdMutation.mutateAsync ({ name, adminId: userId as string });
+			toast.success ('Categoria criada com sucesso!');
+
+			reset ();
+			closeRef.current?.click ();
+		} catch (err) {
+			console.error (err);
+		}
 	}
 
 	return (
@@ -39,27 +61,29 @@ export function CreateCategoryForm () {
 						name = 'name'
 						control = { control }
 
-						render = { ({ field, fieldState }) => (
-							<Field data-invalid = { fieldState.invalid } className = 'grid grid-cols-4 items-center justify-between gap-x-4 gap-y-1 p-2'>
-								<Label htmlFor = 'form-category-name' className = 'text-sm font-medium'>Nome</Label>
-								<Input { ...field } className = 'col-span-3' id = 'form-category-name' aria-invalid = { fieldState.invalid } placeholder = 'Nome da categoria' autoComplete = 'off'/>
+						render = {
+							({ field, fieldState }) => (
+								<Field data-invalid = { fieldState.invalid } className = 'flex flex-col'>
+									<Label htmlFor = 'form-category-name' className = 'pl-1 text-sm font-medium'>Nome</Label>
+									<Input { ...field } id = 'form-category-name' aria-invalid = { fieldState.invalid } placeholder = 'Nome da categoria' autoComplete = 'off'/>
 
-								{
-									fieldState.invalid && (
-										<div className = 'col-start-2 col-span-3'>
-											<FieldError errors = { [ fieldState.error ] }/>
-										</div>
-									)
-								}
-							</Field>
-						) }
+									{
+										fieldState.invalid && (
+											<div className = 'col-start-2 col-span-3'>
+												<FieldError errors = { [ fieldState.error ] }/>
+											</div>
+										)
+									}
+								</Field>
+							)
+						}
 					/>
 				</FieldGroup>
 			</form>
 
 			<DialogFooter>
 				<DialogClose asChild>
-					<Button variant = 'outline' onClick = { () => reset () }>Cancelar</Button>
+					<Button ref = { closeRef } variant = 'outline' onClick = { () => reset () }>Cancelar</Button>
 				</DialogClose>
 				
 				<Button type = 'submit' form = 'form-create-category'>Criar</Button>
