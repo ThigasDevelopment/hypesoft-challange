@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useAuth } from 'react-oidc-context';
 
 import { useProducts } from '@/hooks/products';
 import { useCategoriesName } from '@/hooks/categories';
@@ -68,7 +69,11 @@ export function Products () {
 
 			return [ categories, allProducts, categoriesById ];
 		}, [ stateProps.filter, stateProps.search ]
-	)
+	);
+
+	const auth = useAuth ();
+
+	const isAdmin = (auth.user?.profile as any)?.realm_access?.roles?.includes ('admin');
 
 	return (
 		<div className = 'space-y-6'>
@@ -81,6 +86,8 @@ export function Products () {
 					<DialogTrigger asChild>
 						<Button
 							variant = 'default'
+
+							disabled = { !isAdmin || allCategories.length < 1 } 
 						>
 							<SquarePlus className = 'mr-2 h-4 w-4'/>
 							Criar Produto

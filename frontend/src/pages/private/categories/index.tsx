@@ -6,6 +6,7 @@ import { Button, Card, Category, Dialog, DialogTrigger, Dropdown, DropdownConten
 
 import { ArrowDown, ArrowUp, Search, SquarePlus } from 'lucide-react';
 import { CreateCategoryForm } from '@/components/forms';
+import { useAuth } from 'react-oidc-context';
 
 interface StateProps {
 	filter: 'none' | 'a-z' | 'z-a' | 'recent-asc' | 'recent-desc';
@@ -56,6 +57,10 @@ export function Categories () {
 		}, [ data, stateProps.filter, stateProps.search ]
 	);
 
+	const auth = useAuth ();
+	
+	const isAdmin = (auth.user?.profile as any)?.realm_access?.roles?.includes ('admin');
+
 	return (
 		<div className = 'space-y-6'>
 			<div className = 'flex flex-col sm:flex-row items-center justify-between gap-4'>
@@ -67,6 +72,7 @@ export function Categories () {
 					<DialogTrigger asChild>
 						<Button
 							variant = 'default'
+							disabled = { !isAdmin }
 						>
 							<SquarePlus className = 'mr-2 h-4 w-4'/>
 							Criar Categoria
@@ -126,7 +132,7 @@ export function Categories () {
 										)
 									)
 								) : (
-									<p className = 'text-center text-muted-foreground'>
+									<p className = 'col-span-full text-center py-8 text-muted-foreground'>
 										Nenhuma categoria encontrada
 									</p>
 								)
