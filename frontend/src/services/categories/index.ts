@@ -1,7 +1,8 @@
 import { api } from '@/services/api';
-import type { Category, PaginatedResult } from '@/types';
 
-export async function getCategories (): Promise<PaginatedResult<Category>> {
+import type { Category } from '@/types';
+
+export async function getCategories (): Promise<Category[]> {
 	const response = await api.get ('/categories');
 	return response.data;
 }
