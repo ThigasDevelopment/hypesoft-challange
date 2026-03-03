@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { useCategoriesName } from '@/hooks/categories';
-import { useProducts, useProductsLowStock } from '@/hooks/products';
+import { useGetProductsByCategory, useProducts, useProductsLowStock } from '@/hooks/products';
 
 import { Card, ScrollArea } from '@/components/ui';
 import { ChartDefault } from '@/components/charts';
@@ -10,8 +10,9 @@ import { ShoppingBasket, DollarSign, Layers, TriangleAlert } from 'lucide-react'
 
 export function Dashboard() {
 	const productsQuery = useProducts ();
+	const productsByCategory = useGetProductsByCategory ();
 	const lowStockProductsQuery = useProductsLowStock ();
-	
+
 	const categoriesQuery = useCategoriesName ();
 	
 	const [ totalProducts, totalStockPrice, lowStockList ] = useMemo (
@@ -23,12 +24,12 @@ export function Dashboard() {
 			if (lowStockList.length > 0) {
 				lowStockList.sort (
 					(a, b) => a.name.toLowerCase().localeCompare (b.name.toLowerCase() || '')
-				)
+				);
 			}
 
 			return [ totalProducts, totalStockPrice, lowStockList ];
 		}, [ productsQuery.data, lowStockProductsQuery.data ]
-	)
+	);
 
   	return (
 		<div className = 'space-y-6'>
@@ -136,8 +137,8 @@ export function Dashboard() {
 						</div>
 
 						<ChartDefault
-							list = { [ 1, 2, 3, 4, 5, 6, 7 ] }
-							type = 'line'
+							list = { productsByCategory.map (item => ({ ...item, name: categoriesQuery.byId[item.categoryId] || 'Sem categoria' })) }
+							type = 'bar'
 
 							fields = {
 								{
