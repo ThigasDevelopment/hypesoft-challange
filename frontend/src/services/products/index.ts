@@ -16,7 +16,7 @@ export async function getProductsLowStock (): Promise<Product[]> {
 	return response.data;
 }
 
-export async function createProduct (product: Omit<Product, 'id'>): Promise<Product> {
+export async function createProduct (product: Omit<Product, 'createdAt' | 'updatedAt'>): Promise<Product> {
 	const response = await api.post ('/products', product);
 	return response.data;
 }
