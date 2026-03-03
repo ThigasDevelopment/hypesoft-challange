@@ -34,13 +34,13 @@ export function useProductsLowStock () {
 	});
 }
 
-export function useCreateProduct() {
-	const queryClient = useQueryClient();
+export function useCreateProduct () {
+	const queryClient = useQueryClient ();
 
-	return useMutation({
+	return useMutation ({
 		mutationFn: createProduct,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: [ 'products' ] });
+			queryClient.invalidateQueries ({ queryKey: [ 'products' ] });
 		}
 	});
 }
