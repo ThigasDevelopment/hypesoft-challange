@@ -23,7 +23,7 @@ export function Dashboard() {
 			const lowStockList = lowStockProductsQuery.data || [];
 			if (lowStockList.length > 0) {
 				lowStockList.sort (
-					(a, b) => a.name.toLowerCase().localeCompare (b.name.toLowerCase() || '')
+					(a, b) => b.stock - a.stock
 				);
 			}
 
